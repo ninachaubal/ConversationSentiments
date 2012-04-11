@@ -1,8 +1,8 @@
 {
   "name": "conversationsentiments",                                              
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies":
   {
-    "socket.io": ">= 0.8.7"
+    "express": ">= 2.5.6"
   }
 }
