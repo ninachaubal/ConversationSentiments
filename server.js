@@ -52,6 +52,9 @@ User.prototype.getData = function(){
     return obj;
 };
 
+/**************************************************
+ * SERVER STUFF STARTS
+ *************************************************/
 
 //create a server
 var app = require('express').createServer();
@@ -60,10 +63,13 @@ var table = [new User(),new User(),new User(),new User(),
              new User(),new User(),new User(),new User()];
 //chat stream
 var chat = [];
+var chatIndex = 0;
+var chatMax = 1000;
 
 //sentiment output stream
 var sentiment = [];
-
+var sentimentIndex = 0;
+var sentimentMax = 5000;
 
 /*
 GET /table 
@@ -85,27 +91,114 @@ app.get('/table', function(req, res){
 
 /*
 GET /stream
+params:
+last = the last index that was recieved from previous calls.
+if this is the first call, call with negative last
 returns the chat stream
 example output - 
-[{"name":"user1", "color":"#11AFBA","text":"Hi"},
-{"name":"user2", "color":"#A82A2A","text":"ssup?"},
-{"name":"user1", "color":"#11AFBA","text":"nm"}]
+[{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10"},
+{"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11"},
+{"name":"user1", "color":"#11AFBA","text":"nm"},"index":"12"]
 */
 app.get('/stream', function(req, res){
-    res.json(chat,200);
+    var last = req.param('last');
+    var arr = [];
+    for(var i in chat){
+        if(last < 0 || chat[i].index > last){
+            arr.push(chat[i]);
+        }
+    }
+    res.json(arr,200);
 });
 
 /*
 GET /sentiments
+params:
+last = the last index that was recieved from previous calls.
+if this is the first call, call with negative last
 returns the sentiment stream
 example output -
-[{"pos":"4","color":"#0D3233", "text":"keyword"},{...}]
+[{"pos":"4","color":"#0D3233", "text":"keyword","index"="4"},{...}]
 
 here the sentiment data is already added to the color
 */
 app.get('/sentiments', function(req, res){
-    res.json(sentiment, 200);
+    var last = req.param('last');
+    var arr = [];
+    for(var i in sentiment){
+        if(last < 0 || sentiment[i].index > last){
+            arr.push(sentiment[i]);
+        }
+    }
+    res.json(arr,200);
 });
 
+/*
+POST /user
+params:
+name = the user name of the user to add 
+color = the color representing the user 
+pos = the position of the user (see position in User.join)
+*/
+app.post('/user', function(req, res){
+    var name = req.param('name');
+    var color = req.param('color');
+    var pos = req.param('pos');
+    if(pos != undefined && pos >= 0 && pos <= 7 &&
+       color !== undefined && name !== undefined && name.length > 0){
+        table[pos].join(color, name, pos);
+        res.send('',200);
+    }
+});
+
+/*
+POST /chat
+params:
+pos = the position of the user
+text = the stuff the user said
+*/
+app.post('/chat', function(req, res){
+    var pos = req.param('pos');
+    var text = req.param('text');
+    if(pos !== undefined && pos >= 0 && pos <=7 &&
+       text !== undefined && text.length > 0){
+        addChatLine(text,pos);
+        addSentiment(text,pos);
+        res.send('',200);
+    }
+});
+
+function addSentiment(text, pos){
+    if(sentiment.length == sentimentMax){
+        sentiment.pop();
+    }
+    //TODO: perform sentiment analysis and get the appropriate data
+    var keywords = [];  //TODO
+    for (var i in keywords){
+        var sentimentColor = ''; //TODO
+        var obj = {
+            "pos" : pos,
+            "color" : sentimentColor,
+            "text" : keywords[i],
+            "index" : sentimentIndex
+        };
+        sentimentIndex++;
+        sentiment.push(obj);
+    }
+}
+
+function addChatLine(text, pos){
+    if(chat.length == chatMax){
+        chat.pop();
+    }
+    var obj = {
+        "pos" : pos,
+        "color" : table[pos].color,
+        "text" : text,
+        "index" : chatIndex
+    };
+    chatIndex++;
+    chat.push(obj);
+}
 
 app.listen(process.env.PORT);
