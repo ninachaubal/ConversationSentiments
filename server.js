@@ -56,6 +56,8 @@ User.prototype.getData = function(){
  * SERVER STUFF STARTS
  *************************************************/
 
+//http object
+var http = require('http');
 //create a server
 var app = require('express').createServer();
 //array of users - we support at most 8 users at a time
@@ -133,6 +135,12 @@ app.get('/sentiments', function(req, res){
     res.json(arr,200);
 });
 
+app.get('/test', function(req, res){
+    getSentiments("hello", function(data){
+        res.send(data);
+    });
+});
+
 /*
 POST /user
 params:
@@ -200,5 +208,22 @@ function addChatLine(text, pos){
     chatIndex++;
     chat.push(obj);
 }
+
+function getSentiments(text, callback){
+    var apikey = '';
+    var alchemy = {
+        hostname: 'http://access.alchemyapi.com',
+        path: '/calls/text/TextGetRankedKeywords?apikey='+ apikey +
+              '&outputMode=json&maxRetrieve=5&keywordExtractMode=strict' + 
+            '&sentiment=1&text=' + encodeURIComponent(text)
+    };
+    http.get(alchemy, function(res){
+        res.on('data', function(data){
+            callback(data);
+        });
+    });   
+}
+
+
 
 app.listen(process.env.PORT);
