@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Conversation Sentiments</title>
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
-<script type='text/javascript' src='client.js'> </script>
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-<div id='canvasholder'>
-<canvas width='800' height='600' id='canvas'></canvas>
-</div>
-<div id='chat'>
-<textarea id='output'>
-</textarea>
-<textarea id='input'>
-</textarea>
-</div>
-<div id='adduser'>
-
-</div>
+    <head>
+        <title>Conversation Sentiments</title>
+        <meta charset="utf-8">
+        <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
+        <script type='text/javascript' src='client.js'> </script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+        <div id='canvasholder'>
+            
+        </div>
+        <div id='chat'>
+            <textarea id='output'></textarea>
+            <div id="inputdiv">
+                <textarea id='input'></textarea>
+                <input id='btn' type='button' value='send' />
+            </div>
+        </div>
+        <div id='adduser'>
+        <!-- TODO -->
+        </div>
 </body>
 </html>
