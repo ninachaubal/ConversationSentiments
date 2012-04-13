@@ -42,9 +42,6 @@ User.prototype.leave = function(){
 returns an object representing this object if the user is conversing
 */
 User.prototype.getData = function(){
-    if(!this.isConversing){
-        return null;
-    }
     var obj = {};
     obj.name = this.name;
     obj.color = this.color;
@@ -135,24 +132,27 @@ var sentimentMax = 5000;
 GET /table 
 returns the current list of users on the table
 example output - 
-[{"name":"user1","color":"#11AFBA","position":"4"},
- {"name":"user2","color":"#A82A2A","position":"7"}]
+[{"name":"user1","color":"#11AFBA","position":"0"},
+ {"name":"user2","color":"#A82A2A","position":"1"}, ...]
 */
 app.get('/table', function(req, res){
     var arr = [];
     for(var i in table){
         var obj = table[i].getData();
         if(obj !== null){
+            if(obj.position < 0){
+                obj.position = i;
+            }
             arr.push(obj);
-        }
+        } 
     }
     res.json(arr,200);
 });
 
 /*
-deliv index.html
+deliver index.html
 */
-app.use("/", express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/public'));
 
 /*
 GET /stream
@@ -163,7 +163,7 @@ returns the chat stream
 example output - 
 [{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10"},
 {"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11"},
-{"name":"user1", "color":"#11AFBA","text":"nm"},"index":"12"]
+{"name":"user1", "color":"#11AFBA","text":"nm","index":"12"}]
 */
 app.get('/stream', function(req, res){
     var last = req.param('last');
