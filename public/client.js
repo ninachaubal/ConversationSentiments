@@ -5,6 +5,12 @@ var pos = -1;
 var lastChat = -1;
 var lastSentiment = -1;
 
+//sentiment buffer
+var sentimentBuffer = [];
+
+//table 
+var table;
+
 $(document).ready(function(){
     //hide new user window
     $('#adduser').hide();
@@ -12,9 +18,16 @@ $(document).ready(function(){
     $('#btn').click(function(){
         if(pos>=0 && pos<=7){
             sendMessage($('#input').val());
+            $('#input').val('');
         }
     });
 });
+
+function update(){
+    updateChat();
+    updateTable();
+    updateBuffer();
+}
 
 function updateChat(){
     $.ajax({
@@ -32,35 +45,23 @@ function updateChat(){
     });
 }
 
-function updateCanvas(){
-    var context = canvas.getContext("2d");
-    //draw table
+function updateTable(){
     $.ajax({
         url: '/table',
         success: function(data){
-            for(var i in data){
-                console.log(JSON.stringify(data[i]));
-                //draw user circle
-                context.beginPath();
-                context.arc(positions[i].x, positions[i].y,
-                            radius, 0, 2*Math.PI, false);
-                context.fillStyle = data[i].color;
-                context.fill();
-            }
+            table = data;
         }
     });
-    //draw sentiments
+}
+
+function updateBuffer(){
     $.ajax({
         url: '/sentiments',
         success: function(data){
             for(var i in data){
                 if(data[i].index > lastSentiment){
                     lastSentiment = data[i].index;
-                    context.font = "40pt Helvetica";
-                    context.fillStyle = data[i].color;
-                    context.fillText(data[i].text,
-                                     textPositions[parseInt(data[i].pos,10)].x,
-                                     textPositions[parseInt(data[i].pos,10)].y);
+                    sentimentBuffer.push(data[i]);
                 }
             }
         }
@@ -68,6 +69,7 @@ function updateCanvas(){
 }
 
 function addUser(){
+    //TODO
 }
 
 function sendMessage(text){
@@ -75,29 +77,4 @@ function sendMessage(text){
         type: 'POST',
         url: '/chat?pos='+pos+'&text='+encodeURIComponent(text)
     });
-}
-
-function canvasClick(e){
-    var x;
-    var y;
-    if (e.pageX || e.pageY) {
-      x = e.pageX;
-      y = e.pageY;
-    }
-    else {
-      x = e.clientX + document.body.scrollLeft +
-           document.documentElement.scrollLeft;
-      y = e.clientY + document.body.scrollTop +
-           document.documentElement.scrollTop;
-    }
-    x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
-    
-    for(var i in positions){
-        if(Math.sqrt((x-positions[i].x)*(x-positions[i].x) + 
-                     (y-positions[i].y)*(y-positions[i].y)) <= radius){
-            pos = i;
-            $('#adduser').show();
-        }
-    }
 }
