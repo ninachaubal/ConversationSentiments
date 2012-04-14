@@ -4,13 +4,13 @@
         <title>Conversation Sentiments</title>
         <meta charset="utf-8">
         <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
-        <script type='text/javascript' src='jquery.physics.0.3.js'></script>
+        <script type='text/javascript' src='http://cloud.github.com/downloads/processing-js/processing-js/processing-1.3.6.min.js'></script>
         <script type='text/javascript' src='client.js'> </script>
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <div id='canvasholder'>
-            <canvas width='800' height='600' id='canvas'>
+        <div id='canvasdiv'>
+            <canvas data-processing-sources="anything.pde"></canvas>
         </div>
         <div id='chat'>
             <div id='output'></div>
@@ -20,7 +20,8 @@
             </div>
         </div>
         <div id='adduser'>
-        <!-- TODO -->
+            <p>Name:<input type='text' id='username' /></p>
+            <p>Color:<input type='text' id='color' /></p>
         </div>
 </body>
 </html>

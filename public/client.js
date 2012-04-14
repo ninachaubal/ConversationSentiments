@@ -1,29 +1,9 @@
-//canvas vars
-var canvas;
-var start;
-var width = 800;
-var height = 600;
-
 //user vars
 var pos = -1;
 
 //stream vars
 var lastChat = -1;
 var lastSentiment = -1;
-
-/*positions
-0----1----2
-|         |
-7         3
-|         |
-6----5----4
-*/
-var positions = [{x:0,y:0},{x:width/2,y:0},{x:width,y:0},
-                 {x:width,y:height/2},{x:width,y:height},{x:width/2,y:height},
-                 {x:0,y:height},{x:0,y:height/2}];
-var radius = 10;
-var textPositions = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0},
-                     {x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];
 
 $(document).ready(function(){
     //hide new user window
@@ -34,18 +14,7 @@ $(document).ready(function(){
             sendMessage($('#input').val());
         }
     });
-    //initialize canvas
-    canvas = document.getElementById('canvas');
-    canvas.addEventListener("click",canvasClick,false);
-    start = Date.now();
-    window.requestAnimationFrame(update,canvas);
 });
-
-function update(){
-    updateChat();
-    updateCanvas();
-    window.requestAnimationFraw(update,canvas);
-}
 
 function updateChat(){
     $.ajax({
