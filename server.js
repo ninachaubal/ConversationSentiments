@@ -129,7 +129,7 @@ var sentimentIndex = 0;
 var sentimentMax = 5000;
 
 /*
-GET /table 
+/table 
 returns the current list of users on the table
 example output - 
 [{"name":"user1","color":"#11AFBA","position":"0"},
@@ -155,7 +155,7 @@ deliver index.html
 app.use(express.static(__dirname + '/public'));
 
 /*
-GET /stream
+/stream
 params:
 last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
@@ -177,7 +177,7 @@ app.get('/stream', function(req, res){
 });
 
 /*
-GET /sentiments
+/sentiments
 params:
 last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
@@ -199,13 +199,13 @@ app.get('/sentiments', function(req, res){
 });
 
 /*
-POST /user
+/user
 params:
 name = the user name of the user to add 
 color = the color representing the user 
 pos = the position of the user (see position in User.join)
 */
-app.post('/user', function(req, res){
+app.get('/user', function(req, res){
     var name = req.param('name');
     var color = req.param('color');
     var pos = req.param('pos');
@@ -219,12 +219,12 @@ app.post('/user', function(req, res){
 });
 
 /*
-POST /chat
+/chat
 params:
 pos = the position of the user
 text = the stuff the user said
 */
-app.post('/chat', function(req, res){
+app.get('/chat', function(req, res){
     var pos = req.param('pos');
     var text = req.param('text');
     if(pos !== undefined && pos >= 0 && pos <=7 &&

@@ -27,3 +27,25 @@ void draw(){
         ellipse(positions[i].x,positions[i].y, diam, diam);
     }
 }
+
+void mouseClicked(){
+    var x = mouseX;
+    var y = mouseY;
+    if(pos >= 0 && pos <=7){
+        //user has already signed in
+        return;
+    }
+    for(var i in positions){
+        if(x >= (positions[i].x - diam/2) && x <= (positions[i].x + diam/2) &&
+           y >= (positions[i].y - diam/2) && y <= (positions[i].y + diam/2) ){
+            pos = i;
+            $('#adduser').show();
+            return;
+        }
+    }
+    //the user clicked on something other than one of the circles
+    pos = -1;
+    $('#username').val('');
+    $('#color').val('');
+    $('#adduser').hide();
+}

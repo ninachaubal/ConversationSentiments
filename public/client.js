@@ -21,6 +21,18 @@ $(document).ready(function(){
             $('#input').val('');
         }
     });
+    //cancel
+    $('#cancel').click(function(){
+        pos = -1;
+        $('#username').val('');
+        $('#color').val('');
+        $('#adduser').hide();
+    });
+    //add user
+    $('#join').click(function(){
+        addUser($('#username').val(),$('#color').val());
+        $('#adduser').hide();
+    });
 });
 
 function update(){
@@ -68,13 +80,15 @@ function updateBuffer(){
     });
 }
 
-function addUser(){
-    //TODO
+function addUser(name,color){
+    $.ajax({
+        url: '/user?pos='+pos+'&name='+encodeURIComponent(name) + 
+             '&color='+encodeURIComponent(color)
+    });
 }
 
 function sendMessage(text){
     $.ajax({
-        type: 'POST',
         url: '/chat?pos='+pos+'&text='+encodeURIComponent(text)
     });
 }
