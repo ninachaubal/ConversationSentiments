@@ -6,7 +6,7 @@ var User = function(){
 };
 
 User.prototype.init = function(){
-    this.color = '#000000';
+    this.color = '#ffffff';
     this.name = '';
     this.position = -1;
     this.isConversing = false;
@@ -30,6 +30,7 @@ User.prototype.join = function(color,name, position){
         this.color = color;
         this.name = name;
         this.isConversing = true;
+        this.position = position;
     }
 };
 
@@ -129,7 +130,12 @@ var sentimentIndex = 0;
 var sentimentMax = 5000;
 
 /*
-/table 
+deliver index.html
+*/
+app.use(express.static(__dirname + '/public'));
+
+/*
+GET /table 
 returns the current list of users on the table
 example output - 
 [{"name":"user1","color":"#11AFBA","position":"0"},
@@ -150,26 +156,21 @@ app.get('/table', function(req, res){
 });
 
 /*
-deliver index.html
-*/
-app.use(express.static(__dirname + '/public'));
-
-/*
-/stream
+GET /stream
 params:
 last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
 returns the chat stream
 example output - 
-[{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10"},
-{"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11"},
-{"name":"user1", "color":"#11AFBA","text":"nm","index":"12"}]
+[{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10","pos":"1"},
+{"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11","pos":"4"},
+{"name":"user1", "color":"#11AFBA","text":"nm","index":"12","pos":"1"}]
 */
 app.get('/stream', function(req, res){
     var last = req.param('last');
     var arr = [];
     for(var i in chat){
-        if(last < 0 || chat[i].index > last){
+        if(chat[i].index > last){
             arr.push(chat[i]);
         }
     }
@@ -177,7 +178,7 @@ app.get('/stream', function(req, res){
 });
 
 /*
-/sentiments
+GET /sentiments
 params:
 last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
@@ -191,7 +192,7 @@ app.get('/sentiments', function(req, res){
     var last = req.param('last');
     var arr = [];
     for(var i in sentiment){
-        if(last < 0 || sentiment[i].index > last){
+        if(sentiment[i].index > last){
             arr.push(sentiment[i]);
         }
     }
@@ -199,13 +200,13 @@ app.get('/sentiments', function(req, res){
 });
 
 /*
-/user
+POST /user
 params:
 name = the user name of the user to add 
 color = the color representing the user 
 pos = the position of the user (see position in User.join)
 */
-app.get('/user', function(req, res){
+app.post('/user', function(req, res){
     var name = req.param('name');
     var color = req.param('color');
     var pos = req.param('pos');
@@ -219,12 +220,12 @@ app.get('/user', function(req, res){
 });
 
 /*
-/chat
+POST /chat
 params:
 pos = the position of the user
 text = the stuff the user said
 */
-app.get('/chat', function(req, res){
+app.post('/chat', function(req, res){
     var pos = req.param('pos');
     var text = req.param('text');
     if(pos !== undefined && pos >= 0 && pos <=7 &&
@@ -269,7 +270,8 @@ function addChatLine(text, pos){
         "pos" : pos,
         "color" : table[pos].color,
         "text" : text,
-        "index" : chatIndex
+        "index" : chatIndex,
+        "name" : table[pos].name
     };
     chatIndex++;
     chat.push(obj);
@@ -318,9 +320,10 @@ and returns another color string
 function getSentimentColor(color, score){
     //get the color
     color = color.trim();
-    var r = parseInt(color.substring(1,3));
-    var g = parseInt(color.substring(3,5));
-    var b = parseInt(color.substring(5,7));
+
+    var r = parseInt(color.substring(1,3),16);
+    var g = parseInt(color.substring(3,5),16);
+    var b = parseInt(color.substring(5,7),16);
     var hsv = rgbToHsv(r,g,b);
     
     //change the value (hsv[2])
@@ -330,7 +333,11 @@ function getSentimentColor(color, score){
     var rgb = hsvToRgb(hsv[0],hsv[1],hsv[2]);
     var str = '#';
     for(var i in rgb){
-        str+= rgb[i].toString(16);
+        var temp = rgb[i].toString(16);
+        if(temp.length == 1){
+            temp = '0'+temp;
+        }
+        str+=temp;
     }
     return str;
 }
