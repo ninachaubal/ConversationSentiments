@@ -1,5 +1,5 @@
 var width = 800;
-var height = 600;
+var height = 800;
 /*
 positions
 0----1----2

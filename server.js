@@ -132,7 +132,7 @@ var sentimentMax = 5000;
 /*
 deliver index.html
 */
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/chat'));
 
 /*
 GET /table 
