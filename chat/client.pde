@@ -2,17 +2,16 @@ var width = 800;
 var height = 800;
 /*
 positions
-0----1----2
+0---------1
 |         |
-7         3
 |         |
-6----5----4
+|         |
+3---------2
 */
-var positions = [{x:25,y:25},{x:width/2,y:25},{x:width-25,y:25},{x:width-25,y:height/2},
-                 {x:width-25,y:height-25},{x:width/2,y:height-25},{x:25,y:height-25},{x:25,y:height/2}];
+var positions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
 
-var textPositions = [{x:25,y:25},{x:width/2,y:25},{x:width-25,y:25},{x:width-25,y:height/2},
-                 {x:width-25,y:height-25},{x:width/2,y:height-25},{x:25,y:height-25},{x:25,y:height/2}];
+var textPositions = [{x:25,y:25},{x:width-25,y:25},
+                 {x:width-25,y:height-25},{x:25,y:height-25}];
                  
 var diam = 40;
 
@@ -46,7 +45,7 @@ void draw(){
 void mouseClicked(){
     var x = mouseX;
     var y = mouseY;
-    if(pos >= 0 && pos <=7){
+    if(pos >= 0 && pos <=3){
         //user has already signed in
         return;
     }

@@ -16,17 +16,17 @@ User.prototype.init = function(){
 call when a user joins the conversation
 position refers to one of the locations defined by the client
 
-0----1----2
+0---------1
 |         |
-7         3
 |         |
-6----5----4
+|         |
+3---------2
 
 */
 User.prototype.join = function(color,name, position){
     if(color !== undefined && name !== undefined &&
        name.length > 0 && position !== undefined &&
-       position >= 0 && position <= 7){
+       position >= 0 && position <= 3){
         this.color = color;
         this.name = name;
         this.isConversing = true;
@@ -116,9 +116,8 @@ var http = require('http');
 //create a server
 var express = require('express')
 var app = express.createServer();
-//array of users - we support at most 8 users at a time
-var table = [new User(),new User(),new User(),new User(),
-             new User(),new User(),new User(),new User()];
+//array of users - we support at most 4 users at a time
+var table = [new User(),new User(),new User(),new User()];
 //chat stream
 var chat = [];
 var chatIndex = 0;
@@ -210,7 +209,7 @@ app.post('/user', function(req, res){
     var name = req.param('name');
     var color = req.param('color');
     var pos = req.param('pos');
-    if(pos != undefined && pos >= 0 && pos <= 7 &&
+    if(pos != undefined && pos >= 0 && pos <= 3 &&
        color !== undefined && name !== undefined && name.length > 0){
         //adjust color for default value
         color = getSentimentColor(color,0);
@@ -228,7 +227,7 @@ text = the stuff the user said
 app.post('/chat', function(req, res){
     var pos = req.param('pos');
     var text = req.param('text');
-    if(pos !== undefined && pos >= 0 && pos <=7 &&
+    if(pos !== undefined && pos >= 0 && pos <=3 &&
        text !== undefined && text.length > 0){
         addChatLine(text,pos);
         addSentiment(text,pos);

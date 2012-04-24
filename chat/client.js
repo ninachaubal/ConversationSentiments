@@ -16,7 +16,7 @@ $(document).ready(function(){
     $('#adduser').hide();
     //send button
     $('#btn').click(function(){
-        if(pos>=0 && pos<=7){
+        if(pos>=0 && pos<=3){
             sendMessage($('#inp').val());
         } else {
             alert("click on a position to join the conversation");
