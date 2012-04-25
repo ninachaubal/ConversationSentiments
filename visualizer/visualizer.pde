@@ -2,20 +2,49 @@ import pbox2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
-import com.ning.http.client.*;
-import java.util.concurrent.Future;
+import org.json.*;
 
-int width = 800;
-int height = 800;
+class Sentiment {
+    int pos;
+    String col;
+    String text;
+    int index;
+    Sentiment(int pos, String col, String text, int index){
+        this.pos = pos;
+        this.col = col;
+        this.text = text;
+        this.index = index;
+    }
+}
+
+class Point {
+    int x;
+    int y;
+    Point(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class User {
+    String name;
+    String col;
+    int position;
+    User(String name, String col, int position){
+        this.name = name;
+        this.col = col;
+        this.position = position;
+    }
+}
 
 //stream vars
 int lastSentiment = -1;
 
 //sentiment buffer
-var sentimentBuffer = [];
+ArrayList<Sentiment> sentimentBuffer;
 
 //table 
-var table;
+ArrayList<User> table;
 
 /*
 positions
@@ -25,10 +54,10 @@ positions
 |         |
 3---------2
 */
-var positions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
+Point[] positions;
 
-var textPositions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
-                 
+Point[] textPositions;      
+
 int diam = 40;
 
 
@@ -39,8 +68,24 @@ PBox2D box2d;
 ArrayList<Circle> circles;
 
 void setup(){
-    size(width,height);
+    size(600,600);
     smooth();
+    
+    //Initialize Buffer
+    sentimentBuffer = new ArrayList<Sentiment>();
+    
+    //Positions
+    positions = new Point[4];
+    positions[0] = new Point(25,25);
+    positions[1] = new Point(width-25, 25);
+    positions[2] = new Point(width-25,height-25);
+    positions[3] = new Point(25, height-25);
+    //TODO: change these
+    textPositions = new Point[4];
+    textPositions[0] = new Point(25,25);
+    textPositions[1] = new Point(width-25, 25);
+    textPositions[2] = new Point(width-25,height-25);
+    textPositions[3] = new Point(25, height-25);
     
     // Initialize box2d physics and create the world
     box2d = new PBox2D(this);
@@ -62,18 +107,18 @@ void draw(){
     //get updates from server
     update();
     //draw the table
-    for(var i in table){
-        var r = parseInt(table[i].color.substring(1,3),16);
-        var g = parseInt(table[i].color.substring(3,5),16);
-        var b = parseInt(table[i].color.substring(5,7),16);
+    for(int i = 0; i < table.size(); i++){
+        int r = parseInt(table.get(i).col.substring(1,3),16);
+        int g = parseInt(table.get(i).col.substring(3,5),16);
+        int b = parseInt(table.get(i).col.substring(5,7),16);
         fill(r,g,b);
         ellipse(positions[i].x,positions[i].y, diam, diam);
     }
-    while(sentimentBuffer.length>0){
-        var sentiment = sentimentBuffer.pop();
-        var r = parseInt(sentiment.color.substring(1,3),16);
-        var g = parseInt(sentiment.color.substring(3,5),16);
-        var b = parseInt(sentiment.color.substring(5,7),16);
+    while(!sentimentBuffer.isEmpty()){
+        Sentiment sentiment = sentimentBuffer.remove(0);
+        int r = parseInt(sentiment.col.substring(1,3),16);
+        int g = parseInt(sentiment.col.substring(3,5),16);
+        int b = parseInt(sentiment.col.substring(5,7),16);
         drawText(sentiment.text,
                  textPositions[sentiment.pos].x,textPositions[sentiment.pos].x,
                  r,g,b);
@@ -93,61 +138,49 @@ void draw(){
 
 void update(){
     //table
-    AsyncHttpClient tableClient = new AsyncHttpClient();
-    tableClient.prepareGet("http://conversationsentiments.herokuapp.com//table").execute(
-        new AsyncCompletionHandler<Response>(){
-        
-        @Override
-        public Response onCompleted(Response response) throws Exception{
-            String content = reponse.getResponseBody();
-            System.out.println(content);
-            return response;
-            /*
-            table = data;
-            */
-        };
-        
-        @Override
-        public void onThrowable(Throwable t){
-            //do nothing
+    table = new ArrayList<User>(); //table is completely updated each time
+    String tableRequest = "http://conversationsentiments.herokuapp.com/table";
+    String tableResult = join(loadStrings(tableRequest),"");
+    try{
+        JSONArray tableData = new JSONArray(tableResult);
+        for(int i =0; i < tableData.length(); i++){
+            JSONObject element = tableData.getJSONObject(i);
+            table.add(new User(element.getString("name"),
+                               element.getString("color"),
+                               element.getInt("position")));
         }
-    });
-
+    }
+    catch(JSONException e){
+        println("JSON parsing error");
+    }
     //sentiments
-    AsyncHttpClient tableClient = new AsyncHttpClient();
-    tableClient.prepareGet("http://conversationsentiments.herokuapp.com/sentiments?last="+lastSentiment).execute(
-        new AsyncCompletionHandler<Response>(){
-        
-        @Override
-        public Response onCompleted(Response response) throws Exception{
-            String content = reponse.getResponseBody();
-            System.out.println(content);
-            /*
-            for(var i in data){
-                if(data[i].index > lastSentiment){
-                    lastSentiment = data[i].index;
-                    sentimentBuffer.push(data[i]);
-                }
+    String sentimentRequest = "http://conversationsentiments.herokuapp.com/sentiments?last="+lastSentiment;
+    String sentimentResult = join(loadStrings(sentimentRequest),"");
+    try{
+        JSONArray sentimentData = new JSONArray(sentimentResult);
+        for(int i =0; i < sentimentData.length(); i++){
+            JSONObject element = sentimentData.getJSONObject(i);
+            if(element.getInt("index") > lastSentiment){
+                lastSentiment = element.getInt("index");
+                sentimentBuffer.add(new Sentiment(element.getInt("pos"),
+                                                  element.getString("color"),
+                                                  element.getString("text"),
+                                                  element.getInt("index")));
             }
-            */
-            return response;
-        };
-        
-        @Override
-        public void onThrowable(Throwable t){
-            //do nothing
         }
-    });
+    } catch(JSONException e){
+        println("JSON parsing error");
+    }        
 }
 
 
-void drawText(String txt,float x, float y, float r, float g, float b){
+void drawText(String txt,float x, float y, int r, int g, int b){
     //placeholder code
     fill(r,g,b);
     text(txt,x,y);
     
     if (random(1) < 0.6) {
-        Circle p = new Circle(x, y, r, g, b, rad, 0, 0);
+        Circle p = new Circle(x, y, r, g, b, diam/2, 0, 0);
         circles.add(p);
     }  
 }
