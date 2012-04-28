@@ -26,25 +26,11 @@ class Point {
     }
 }
 
-class User {
-    String name;
-    String col;
-    int position;
-    User(String name, String col, int position){
-        this.name = name;
-        this.col = col;
-        this.position = position;
-    }
-}
-
 //stream vars
 int lastSentiment = -1;
 
 //sentiment buffer
 ArrayList<Sentiment> sentimentBuffer;
-
-//table 
-ArrayList<User> table;
 
 /*
 positions
@@ -107,13 +93,8 @@ void draw(){
     //get updates from server
     update();
     //draw the table
-    for(int i = 0; i < table.size(); i++){
-        int r = parseInt(table.get(i).col.substring(1,3),16);
-        int g = parseInt(table.get(i).col.substring(3,5),16);
-        int b = parseInt(table.get(i).col.substring(5,7),16);
-        fill(r,g,b);
-        ellipse(positions[i].x,positions[i].y, diam, diam);
-    }
+    
+    //display sentiments
     while(!sentimentBuffer.isEmpty()){
         Sentiment sentiment = sentimentBuffer.remove(0);
         int r = parseInt(sentiment.col.substring(1,3),16);
@@ -137,22 +118,6 @@ void draw(){
 }
 
 void update(){
-    //table
-    table = new ArrayList<User>(); //table is completely updated each time
-    String tableRequest = "http://conversationsentiments.herokuapp.com/table";
-    String tableResult = join(loadStrings(tableRequest),"");
-    try{
-        JSONArray tableData = new JSONArray(tableResult);
-        for(int i =0; i < tableData.length(); i++){
-            JSONObject element = tableData.getJSONObject(i);
-            table.add(new User(element.getString("name"),
-                               element.getString("color"),
-                               element.getInt("position")));
-        }
-    }
-    catch(JSONException e){
-        println("JSON parsing error");
-    }
     //sentiments
     String sentimentRequest = "http://conversationsentiments.herokuapp.com/sentiments?last="+lastSentiment;
     String sentimentResult = join(loadStrings(sentimentRequest),"");

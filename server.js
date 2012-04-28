@@ -1,123 +1,17 @@
-/* 
-The User class
-*/
-var User = function(){
-    this.init();
-};
-
-User.prototype.init = function(){
-    this.color = '#ffffff';
-    this.name = '';
-    this.position = -1;
-    this.isConversing = false;
-};
-
-/*
-call when a user joins the conversation
-position refers to one of the locations defined by the client
-
-0---------1
-|         |
-|         |
-|         |
-3---------2
-
-*/
-User.prototype.join = function(color,name, position){
-    if(color !== undefined && name !== undefined &&
-       name.length > 0 && position !== undefined &&
-       position >= 0 && position <= 3){
-        this.color = color;
-        this.name = name;
-        this.isConversing = true;
-        this.position = position;
-    }
-};
-
-User.prototype.leave = function(){
-    //reset everything
-    this.init();
-};
-
-/*
-returns an object representing this object if the user is conversing
-*/
-User.prototype.getData = function(){
-    var obj = {};
-    obj.name = this.name;
-    obj.color = this.color;
-    obj.position = this.position;
-    return obj;
-};
-
-/*
- * hsv <-> rbg conversion code adapted from 
- * http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- */
-function rgbToHsv(r, g, b){
-    r = r/255, g = g/255, b = b/255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, v = max;
-
-    var d = max - min;
-    s = max == 0 ? 0 : d / max;
-
-    if(max == min){
-        h = 0; // achromatic
-    }else{
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-
-    h = Math.round(h*360)
-    s = Math.round(s*100);
-    v = Math.round(v*100);
-    return [h, s, v];
-}
-
-function hsvToRgb(h, s, v){
-    h = h/360;
-    v = v/100;
-    s = s/100;
-    var r, g, b;
-
-    var i = Math.floor(h * 6);
-    var f = h * 6 - i;
-    var p = v * (1 - s);
-    var q = v * (1 - f * s);
-    var t = v * (1 - (1 - f) * s);
-
-    switch(i % 6){
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
-    }
-
-    r = Math.round(r*255);
-    g = Math.round(g*255);
-    b = Math.round(b*255);
-    return [r, g, b];
-}
 
 
 /**************************************************
  * SERVER STUFF STARTS
  *************************************************/
-
+//user
+var usr = require('./user');
 //http object
 var http = require('http');
 //create a server
 var express = require('express')
 var app = express.createServer();
 //array of users - we support at most 4 users at a time
-var table = [new User(),new User(),new User(),new User()];
+var table = [new usr.User(),new usr.User(),new usr.User(),new usr.User()];
 //chat stream
 var chat = [];
 var chatIndex = 0;
@@ -216,6 +110,20 @@ app.post('/user', function(req, res){
         table[pos].join(color, name, pos);
         res.send('',200);
     }
+});
+
+
+/*
+DELETE /user
+params:
+pos = position of the user
+*/
+app.del('/user',function(req,res){
+    var pos = req.param('pos');
+    if(pos != undefined && pos >= 0 && pos <= 3){
+        table[pos].leave();
+    }
+    res.send('',200);
 });
 
 /*
@@ -342,3 +250,61 @@ function getSentimentColor(color, score){
 }
 
 app.listen(process.env.PORT);
+
+
+
+/*
+ * hsv <-> rbg conversion code adapted from 
+ * http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+ */
+function rgbToHsv(r, g, b){
+    r = r/255, g = g/255, b = b/255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, v = max;
+
+    var d = max - min;
+    s = max === 0 ? 0 : d / max;
+
+    if(max == min){
+        h = 0; // achromatic
+    }else{
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    h = Math.round(h*360);
+    s = Math.round(s*100);
+    v = Math.round(v*100);
+    return [h, s, v];
+}
+
+function hsvToRgb(h, s, v){
+    h = h/360;
+    v = v/100;
+    s = s/100;
+    var r, g, b;
+
+    var i = Math.floor(h * 6);
+    var f = h * 6 - i;
+    var p = v * (1 - s);
+    var q = v * (1 - f * s);
+    var t = v * (1 - (1 - f) * s);
+
+    switch(i % 6){
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+
+    r = Math.round(r*255);
+    g = Math.round(g*255);
+    b = Math.round(b*255);
+    return [r, g, b];
+}

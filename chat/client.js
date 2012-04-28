@@ -35,6 +35,11 @@ $(document).ready(function(){
         addUser($('#username').val(),$('#color').val());
         $('#adduser').hide();
     });
+    
+    //unload
+    $(window).unload(function(){
+        removeUser();
+    });
 });
 
 function update(){
@@ -88,6 +93,13 @@ function addUser(name,color){
         type: 'POST',
         url: '/user?pos='+pos+'&name='+encodeURIComponent(name) + 
              '&color='+encodeURIComponent(color)
+    });
+}
+
+function removeUser(){
+    $.ajax({
+        type: 'DELETE',
+        url: '/user?pos='+pos
     });
 }
 
