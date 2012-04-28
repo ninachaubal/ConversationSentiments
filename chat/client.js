@@ -38,6 +38,7 @@ $(document).ready(function(){
     
     //unload
     $(window).unload(function(){
+        alert('hello');
         removeUser();
     });
 });
@@ -88,11 +89,11 @@ function updateBuffer(){
     });
 }
 
-function addUser(name,color){
+function addUser(name,theme){
     $.ajax({
         type: 'POST',
         url: '/user?pos='+pos+'&name='+encodeURIComponent(name) + 
-             '&color='+encodeURIComponent(color)
+             '&theme='+encodeURIComponent(theme)
     });
 }
 

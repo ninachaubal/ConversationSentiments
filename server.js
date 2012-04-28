@@ -5,10 +5,12 @@
  *************************************************/
 //user
 var usr = require('./user');
+//colors
+var col = require('./colors');
 //http object
 var http = require('http');
 //create a server
-var express = require('express')
+var express = require('express');
 var app = express.createServer();
 //array of users - we support at most 4 users at a time
 var table = [new usr.User(),new usr.User(),new usr.User(),new usr.User()];
@@ -21,6 +23,8 @@ var chatMax = 1000;
 var sentiment = [];
 var sentimentIndex = 0;
 var sentimentMax = 5000;
+
+var inUse = false;
 
 /*
 deliver index.html
@@ -77,7 +81,7 @@ last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
 returns the sentiment stream
 example output -
-[{"pos":"4","color":"#0D3233", "text":"keyword","index"="4"},{...}]
+[{"pos":"4","color":["#0D3233", ... ], "text":"keyword","index"="4"},{...}]
 
 here the sentiment data is already added to the color
 */
@@ -96,18 +100,18 @@ app.get('/sentiments', function(req, res){
 POST /user
 params:
 name = the user name of the user to add 
-color = the color representing the user 
+theme = the color theme for the user 
 pos = the position of the user (see position in User.join)
 */
 app.post('/user', function(req, res){
     var name = req.param('name');
-    var color = req.param('color');
+    var theme = req.param('theme');
     var pos = req.param('pos');
     if(pos != undefined && pos >= 0 && pos <= 3 &&
-       color !== undefined && name !== undefined && name.length > 0){
-        //adjust color for default value
-        color = getSentimentColor(color,0);
-        table[pos].join(color, name, pos);
+       theme !== undefined && theme > 0 && theme <= 4 &&
+       name !== undefined && name.length > 0){
+        inUse = true;
+        table[pos].join(theme, name, pos);
         res.send('',200);
     }
 });
@@ -122,6 +126,16 @@ app.del('/user',function(req,res){
     var pos = req.param('pos');
     if(pos != undefined && pos >= 0 && pos <= 3){
         table[pos].leave();
+        inUse = false;
+        for(var i in table){
+            if(table[i].isConversing){
+                inUse = true;
+                break;
+            }
+        }
+        if(!inUse){
+            reset();
+        }
     }
     res.send('',200);
 });
@@ -144,6 +158,15 @@ app.post('/chat', function(req, res){
 });
 
 /*
+GET /reset
+forcibly resets the conversation
+*/
+app.get('/reset', function(req, res){
+    reset();
+    res.send('',200);
+});
+
+/*
 adds keywords to the sentiment stream
 */
 function addSentiment(text, pos){
@@ -152,14 +175,19 @@ function addSentiment(text, pos){
     }
     getSentiments(text, function(keywords){
         for (var i in keywords){
-            var sentimentColor = getSentimentColor(table[pos].color, 
-                                                   keywords[i].sentiment); 
             var obj = {
                 "pos" : pos,
-                "color" : sentimentColor,
+                "color" : [],
                 "text" : keywords[i].text,
                 "index" : sentimentIndex
             };
+            
+            for(var j = 0 ; j < keywords[i].length; j++ ){
+                var color = getSentimentColor(col.theme.getColor(table[pos].theme),
+                                              keywords[i].sentiment);
+                obj.color.push();
+            }
+            
             sentimentIndex++;
             sentiment.push(obj);
         }
@@ -231,13 +259,13 @@ function getSentimentColor(color, score){
     var r = parseInt(color.substring(1,3),16);
     var g = parseInt(color.substring(3,5),16);
     var b = parseInt(color.substring(5,7),16);
-    var hsv = rgbToHsv(r,g,b);
+    var hsv = col.rgbToHsv(r,g,b);
     
     //change the value (hsv[2])
     score += 1; //score is now in [0,2] range
     hsv[2] = Math.round(score*50);
     
-    var rgb = hsvToRgb(hsv[0],hsv[1],hsv[2]);
+    var rgb = col.hsvToRgb(hsv[0],hsv[1],hsv[2]);
     var str = '#';
     for(var i in rgb){
         var temp = rgb[i].toString(16);
@@ -249,62 +277,20 @@ function getSentimentColor(color, score){
     return str;
 }
 
-app.listen(process.env.PORT);
-
-
-
 /*
- * hsv <-> rbg conversion code adapted from 
- * http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- */
-function rgbToHsv(r, g, b){
-    r = r/255, g = g/255, b = b/255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, v = max;
-
-    var d = max - min;
-    s = max === 0 ? 0 : d / max;
-
-    if(max == min){
-        h = 0; // achromatic
-    }else{
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
+reset the conversation
+*/
+function reset(){
+    //remove all users
+    for(var i in table){
+        table[i].leave();
     }
-
-    h = Math.round(h*360);
-    s = Math.round(s*100);
-    v = Math.round(v*100);
-    return [h, s, v];
+    //reset chat
+    chat = [];
+    chatIndex = 0;
+    //reset  sentiment
+    sentiment = [];
+    sentimentIndex = 0;
 }
 
-function hsvToRgb(h, s, v){
-    h = h/360;
-    v = v/100;
-    s = s/100;
-    var r, g, b;
-
-    var i = Math.floor(h * 6);
-    var f = h * 6 - i;
-    var p = v * (1 - s);
-    var q = v * (1 - f * s);
-    var t = v * (1 - (1 - f) * s);
-
-    switch(i % 6){
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
-    }
-
-    r = Math.round(r*255);
-    g = Math.round(g*255);
-    b = Math.round(b*255);
-    return [r, g, b];
-}
+app.listen(process.env.PORT);

@@ -32,13 +32,13 @@ void draw(){
         ellipse(positions[i].x,positions[i].y, diam, diam);
     }
     while(sentimentBuffer.length>0){
-        var sentiment = sentimentBuffer.pop();
+        /*var sentiment = sentimentBuffer.pop();
         var r = parseInt(sentiment.color.substring(1,3),16);
         var g = parseInt(sentiment.color.substring(3,5),16);
         var b = parseInt(sentiment.color.substring(5,7),16);
         drawText(sentiment.text,
                  textPositions[sentiment.pos].x,textPositions[sentiment.pos].x,
-                 r,g,b);
+                 r,g,b);*/
     }
 }
 

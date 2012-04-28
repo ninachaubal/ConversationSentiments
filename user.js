@@ -10,6 +10,7 @@ User.prototype.init = function(){
     this.name = '';
     this.position = -1;
     this.isConversing = false;
+    this.theme = 0;
 };
 
 /*
@@ -23,11 +24,13 @@ position refers to one of the locations defined by the client
 3---------2
 
 */
-User.prototype.join = function(color,name, position){
-    if(color !== undefined && name !== undefined &&
+User.prototype.join = function(theme,name, position){
+    if(theme !== undefined && theme > 0 &&
+       theme <= 4 && name !== undefined &&
        name.length > 0 && position !== undefined &&
        position >= 0 && position <= 3){
-        this.color = color;
+        this.theme = theme;
+        this.color = require('./colors').Theme.mainColor[theme];
         this.name = name;
         this.isConversing = true;
         this.position = position;
