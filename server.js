@@ -116,7 +116,6 @@ app.post('/user', function(req, res){
     }
 });
 
-
 /*
 DELETE /user
 params:
@@ -185,7 +184,7 @@ function addSentiment(text, pos){
             for(var j = 0 ; j < keywords[i].length; j++ ){
                 var color = getSentimentColor(col.theme.getColor(table[pos].theme),
                                               keywords[i].sentiment);
-                obj.color.push();
+                obj.color.push(color);
             }
             
             sentimentIndex++;

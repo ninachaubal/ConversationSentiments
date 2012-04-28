@@ -31,9 +31,29 @@ $(document).ready(function(){
         $('#adduser').hide();
     });
     //add user
-    $('#join').click(function(){
-        addUser($('#username').val(),$('#color').val());
-        $('#adduser').hide();
+    $('#blue').click(function(){
+        if($('#username').val() !== undefined){
+            addUser($('#username').val(),1);
+            $('#adduser').hide();
+        }
+    });
+    $('#orange').click(function(){
+        if($('#username').val() !== undefined){
+            addUser($('#username').val(),2);
+            $('#adduser').hide();
+        }
+    });
+    $('#violet').click(function(){
+        if($('#username').val() !== undefined){
+            addUser($('#username').val(),3);
+            $('#adduser').hide();
+        }
+    });
+    $('#green').click(function(){
+        if($('#username').val() !== undefined){
+            addUser($('#username').val(),4);
+            $('#adduser').hide();
+        }
     });
     
     //unload
@@ -41,6 +61,8 @@ $(document).ready(function(){
         alert('hello');
         removeUser();
     });
+    
+    alert("Choose a position to get started.");
 });
 
 function update(){

@@ -64,7 +64,7 @@ var Theme = {
     mainColor : [
                     '#ffffff',  //default white / no theme
                     '#197780',  //blue
-                    '#805a19',  //orange/yellow
+                    '#805a19',  //orange
                     '#5e1980',  //violet
                     '#558019'   //green
                 ],
