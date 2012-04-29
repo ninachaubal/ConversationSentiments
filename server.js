@@ -20,6 +20,9 @@ var sentiment = [];
 var sentimentIndex = 0;
 var sentimentMax = 5000;
 
+//circles
+var circles = [];
+
 var inUse = false;
 
 /*
@@ -94,7 +97,6 @@ app.get('/sentiments', function(req, res){
             arr.push(sentiment[i]);
         }
     }
-    console.log(arr);
     res.json(arr,200);
 });
 
@@ -154,8 +156,28 @@ app.post('/chat', function(req, res){
        text !== undefined && text.length > 0){
         addChatLine(text,pos);
         addSentiment(text,pos);
+    }
+    res.send('',200);
+});
+
+/*
+POST /circles
+params:
+arr = [{'x':3,y:'4',r:'5',c:'a'}, ...]
+*/
+app.post('/circles', function(req,res){
+    var arr = req.param('req');
+    if(arr !== undefined){
+        circles = JSON.parse(arr);
         res.send('',200);
     }
+});
+
+/*
+GET /circles
+*/
+app.get('/circles', function(req, res){
+    res.json(circles,200);
 });
 
 /*
@@ -164,6 +186,14 @@ forcibly resets the conversation
 */
 app.get('/reset', function(req, res){
     reset();
+    res.send('',200);
+});
+
+/*
+GET debug
+*/
+app.get('/debug',function(rew,res){
+    console.log(sentiment);
     res.send('',200);
 });
 
@@ -223,6 +253,7 @@ function getSentiments(text,callback){
               '&outputMode=json&maxRetrieve=5&keywordExtractMode=strict' + 
             '&sentiment=1&text=' + encodeURIComponent(text)
     };
+
     http.get(alchemy, function(res){
         var data = "";
         res.on('data', function(chunk){
