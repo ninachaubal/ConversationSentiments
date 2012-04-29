@@ -1,10 +1,8 @@
 var script = [
-    {'user' : 1, 'text': "hello"},
-    {'user' : 2, 'text': "wassup?"},
-    {'user' : 3, 'text': "sad stuff"},
-    {'user' : 4, 'text': "best day ever"},
-    {'user' : 1, 'text': "this is a really long sentence which should have more than one keyword"},
-    {'user' : 3, 'text': "the sun"}
+    {'user' : 0, 'text': "hello"},
+    {'user' : 1, 'text': "wassup?"},
+    {'user' : 2, 'text': "dark"},
+    {'user' : 3, 'text': "what a bright and sunny day"}
 ];
 
 $(document).ready(function(){
@@ -12,8 +10,6 @@ $(document).ready(function(){
     addUsers();
     //start the conversation
     start(0);
-    //remove all users
-    removeUsers();
 });
 
 function addUsers(){
@@ -22,17 +18,17 @@ function addUsers(){
         type: 'POST',
         url: '/user?pos=0&name=user1&theme=1'
     });
-    //user 1
+    //user 2
     $.ajax({
         type: 'POST',
         url: '/user?pos=1&name=user2&theme=2'
     });
-    //user 1
+    //user 3
     $.ajax({
         type: 'POST',
         url: '/user?pos=2&name=user3&theme=3'
     });
-    //user 1
+    //user 4
     $.ajax({
         type: 'POST',
         url: '/user?pos=3&name=user4&theme=4'
@@ -40,36 +36,14 @@ function addUsers(){
 }
 
 function start(pos){
-    if(script[pos] === undefined){
-        return;
-    }
-    $.ajax({
-        type: 'POST',
-        url: '/chat?pos=' + (script[pos].user - 1) +
-             '&text='+encodeURIComponent(script[pos].text)
-    });
-    setTimeout(start(pos+1),Math.round(Math.random()*2000));
-}
-
-function removeUsers(){
-    //user 1
-    $.ajax({
-        type: 'DELETE',
-        url: '/user?pos=1'
-    });
-    //user 2
-    $.ajax({
-        type: 'DELETE',
-        url: '/user?pos=2'
-    });
-    //user 3
-    $.ajax({
-        type: 'DELETE',
-        url: '/user?pos=3'
-    });
-    //user 4
-    $.ajax({
-        type: 'DELETE',
-        url: '/user?pos=4'
-    });
+        if(pos >= script.length){
+            console.log(pos);
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/chat?pos=' + (script[pos].user) +
+                 '&text='+encodeURIComponent(script[pos].text)
+        });
+        setTimeout(start(pos+1),1000);
 }
