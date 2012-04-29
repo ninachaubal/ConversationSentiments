@@ -1,3 +1,5 @@
+/* @pjs font="ARLRDBD.ttf"; */
+
 var width = 600;
 var height = 600;
 /*
@@ -9,15 +11,16 @@ positions
 3---------2
 */
 var positions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
-
-var textPositions = [{x:25,y:25},{x:width-25,y:25},
-                 {x:width-25,y:height-25},{x:25,y:height-25}];
                  
 var diam = 40;
+
+PFont myFont;
 
 void setup(){
     size(width,height);
     background(0);
+    smooth();
+    myFont = createFont("ARLRDBD.TTF", 13);
 }
 
 void draw(){
@@ -31,14 +34,22 @@ void draw(){
         fill(r,g,b);
         ellipse(positions[i].x,positions[i].y, diam, diam);
     }
-    while(sentimentBuffer.length>0){
-        /*var sentiment = sentimentBuffer.pop();
-        var r = parseInt(sentiment.color.substring(1,3),16);
-        var g = parseInt(sentiment.color.substring(3,5),16);
-        var b = parseInt(sentiment.color.substring(5,7),16);
-        drawText(sentiment.text,
-                 textPositions[sentiment.pos].x,textPositions[sentiment.pos].x,
-                 r,g,b);*/
+    
+    //draw circles
+    for (var i in circles){
+        //{'x':3,'y':4,'rad':5,'ang':'-1','chr':'a',col:'#2323ff'}
+        var r = parseInt(circles[i].col.substring(1,3),16);
+        var g = parseInt(circles[i].col.substring(3,5),16);
+        var b = parseInt(circles[i].col.substring(5,7),16);
+        fill(r,g,b);
+        var d = 2*circles[i].rad;
+        ellipse(circles[i].x,circles[i].y, d, d);
+        /*TODO: display character
+        if(circles[i].chr != ''){
+            rotate by circles[i].ang
+            display circles[i].chr
+        }
+        */
     }
 }
 

@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 // The Nature of Code
 // <http://www.shiffman.net/teaching/nature>
 // Spring 2010
@@ -155,5 +157,30 @@ class Circle {
     //body.setAngularVelocity(random(-5, 5));
     body.setLinearVelocity(new Vec2(0,0));
     body.setAngularVelocity(0);
+  }
+  
+  //returns a HashMap that can be converted to a JSONObject
+  HashMap<String,String> getJSON(){
+    HashMap<String, String> map = new HashMap <String, String>();
+    Vec2 pos = box2d.getBodyPixelCoord(body);
+    map.put("x",pos.x); //x coor
+    map.put("y",pos.y); //y coord
+    map.put("rad",rad); //radius
+    map.put("ang",body.getAngle()); //angle of rotation
+    if(!dynamic){
+        map.put("chr",letter); //char
+    } else {
+        map.put("chr","");
+    }
+    map.put("col",getColorString()); //color
+    return map;    
+  }
+  
+  String getColorString(){
+    String col = "#";
+    col += Integer.toString(r,16);
+    col += Integer.toString(g,16);
+    col += Integer.toString(b,16);
+    return col;
   }
 }

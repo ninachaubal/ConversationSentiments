@@ -3,6 +3,7 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.json.*;
+java.util.HashMap
 
 class Sentiment {
     int pos;
@@ -117,6 +118,8 @@ void draw(){
             circles.remove(i);
         }
     }
+    
+    sendCirclesToServer();
 }
 
 void update(){
@@ -163,4 +166,15 @@ int[] strToRgb(String s){
     ret[1] = parseInt(s.substring(3,5),16);
     ret[2] = parseInt(s.substring(5,7),16);
     return ret;
+}
+
+void sendCirclesToServer(){
+    JSONArray circleArr = new JSONArray();
+    int index = 0;
+    for(Circle c : circles){
+        circleArr.put(c.getJSON());
+    }
+    String circleJSON = circleArr.toString();
+    String circleRequest = url + "/circles?arr="+circleJSON;
+    loadStrings(circleRequest);
 }

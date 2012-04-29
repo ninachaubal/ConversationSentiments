@@ -3,13 +3,12 @@ var pos = -1;
 
 //stream vars
 var lastChat = -1;
-var lastSentiment = -1;
-
-//sentiment buffer
-var sentimentBuffer = [];
 
 //table 
 var table;
+
+//circles
+var circles;
 
 $(document).ready(function(){
     //hide new user window
@@ -68,7 +67,7 @@ $(document).ready(function(){
 function update(){
     updateChat();
     updateTable();
-    updateBuffer();
+    updateCircles();
 }
 
 function updateChat(){
@@ -97,16 +96,11 @@ function updateTable(){
     });
 }
 
-function updateBuffer(){
+function updateCircles(){
     $.ajax({
-        url: '/sentiments?last='+lastSentiment,
+        url: '/circles',
         success: function(data){
-            for(var i in data){
-                if(data[i].index > lastSentiment){
-                    lastSentiment = data[i].index;
-                    sentimentBuffer.push(data[i]);
-                }
-            }
+            circles = data;
         }
     });
 }

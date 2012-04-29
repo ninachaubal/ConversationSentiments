@@ -26,6 +26,10 @@ class Point {
     }
 }
 
+//url
+String url = "http://conversationsentiments.herokuapp.com"; //production server
+//String url = "http://conversationsentiments.ninch.c9.io"; //debug server
+
 //stream vars
 int lastSentiment = -1;
 
@@ -48,8 +52,6 @@ PBox2D box2d;
 
 // A list for all of our rectangles
 ArrayList<Circle> circles;
-
-PFont myFont;
 
 void setup(){
     size(600,600);
@@ -79,8 +81,6 @@ void setup(){
 
 
 void draw(){
-    background(30);
-
     // We must always step through time!
     box2d.step();
 
@@ -104,10 +104,6 @@ void draw(){
 
     rectMode(CENTER);
     stroke(0);
-    // Display all the circles
-    for (Circle b: circles) {
-        b.display();
-    }
     
     // circles that leave the screen, we delete them
     // (note they have to be deleted from both the box2d world and our list
@@ -117,11 +113,13 @@ void draw(){
             circles.remove(i);
         }
     }
+    
+    sendCirclesToServer();
 }
 
 void update(){
     //sentiments
-    String sentimentRequest = "http://conversationsentiments.herokuapp.com/sentiments?last="+lastSentiment;
+    String sentimentRequest = url + "/sentiments?last="+lastSentiment;
     String sentimentResult = join(loadStrings(sentimentRequest),"");
     try{
         JSONArray sentimentData = new JSONArray(sentimentResult);
@@ -163,4 +161,15 @@ int[] strToRgb(String s){
     ret[1] = parseInt(s.substring(3,5),16);
     ret[2] = parseInt(s.substring(5,7),16);
     return ret;
+}
+
+void sendCirclesToServer(){
+    JSONArray circleArr = new JSONArray();
+    int index = 0;
+    for(Circle c : circles){
+        circleArr.put(c.getJSON());
+    }
+    String circleJSON = circleArr.toString();
+    String circleRequest = url + "/circles?arr="+circleJSON;
+    loadStrings(circleRequest);
 }

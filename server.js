@@ -163,7 +163,7 @@ app.post('/chat', function(req, res){
 /*
 POST /circles
 params:
-arr = [{'x':3,y:'4',r:'5',c:'a'}, ...]
+arr = [{'x':3,'y':4,'rad':5,'ang':'-1','chr':'a',col:'#2323ff'}, ...]
 */
 app.post('/circles', function(req,res){
     var arr = req.param('req');
