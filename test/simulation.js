@@ -1,6 +1,10 @@
 var script = [
     {'user' : 1, 'text': "hello"},
-    {'user' : 2, 'text': "wassup?"}
+    {'user' : 2, 'text': "wassup?"},
+    {'user' : 3, 'text': "sad stuff"},
+    {'user' : 4, 'text': "best day ever"}
+    {'user' : 1, 'text': "this is a really long sentence which should have more than one keyword"}
+    {'user' : 3, 'text': "the sun"}
 ];
 
 $(document).ready(function(){
