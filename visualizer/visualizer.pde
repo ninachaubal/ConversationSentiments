@@ -6,10 +6,10 @@ import org.json.*;
 
 class Sentiment {
     int pos;
-    String col;
+    String[] col;
     String text;
     int index;
-    Sentiment(int pos, String col, String text, int index){
+    Sentiment(int pos, String[] col, String text, int index){
         this.pos = pos;
         this.col = col;
         this.text = text;
@@ -40,12 +40,8 @@ positions
 |         |
 3---------2
 */
-Point[] positions;
 
 Point[] textPositions;      
-
-int diam = 40;
-
 
 // A reference to our box2d world
 PBox2D box2d;
@@ -53,19 +49,17 @@ PBox2D box2d;
 // A list for all of our rectangles
 ArrayList<Circle> circles;
 
+PFont myFont;
+
 void setup(){
     size(600,600);
     smooth();
     
+    myFont = createFont("ARLRDBD.TTF", 13);
+    
     //Initialize Buffer
     sentimentBuffer = new ArrayList<Sentiment>();
     
-    //Positions
-    positions = new Point[4];
-    positions[0] = new Point(25,25);
-    positions[1] = new Point(width-25, 25);
-    positions[2] = new Point(width-25,height-25);
-    positions[3] = new Point(25, height-25);
     //TODO: change these
     textPositions = new Point[4];
     textPositions[0] = new Point(25,25);
@@ -92,17 +86,13 @@ void draw(){
 
     //get updates from server
     update();
-    //draw the table
-    
+
     //display sentiments
     while(!sentimentBuffer.isEmpty()){
         Sentiment sentiment = sentimentBuffer.remove(0);
-        int r = parseInt(sentiment.col.substring(1,3),16);
-        int g = parseInt(sentiment.col.substring(3,5),16);
-        int b = parseInt(sentiment.col.substring(5,7),16);
-        drawText(sentiment.text,
+        addText(sentiment.text,
                  textPositions[sentiment.pos].x,textPositions[sentiment.pos].x,
-                 r,g,b);
+                 sentiment.col);
     }
     
     for (Circle b: circles) {
@@ -114,6 +104,15 @@ void draw(){
     // Display all the circles
     for (Circle b: circles) {
         b.display();
+    }
+    
+    // circles that leave the screen, we delete them
+    // (note they have to be deleted from both the box2d world and our list
+    for (int i = circles.size()-1; i >= 0; i--) {
+        Circle b = circles.get(i);
+        if (b.done()) {
+            circles.remove(i);
+        }
     }
 }
 
@@ -127,8 +126,13 @@ void update(){
             JSONObject element = sentimentData.getJSONObject(i);
             if(element.getInt("index") > lastSentiment){
                 lastSentiment = element.getInt("index");
+                JSONArray colorArr = element.getJSONArray("color");
+                String[] colorStrs = new String[colorArr.length()];
+                for(int j = 0; j < colorArr.length(); j++){
+                    colorStrs[i] = colorArr.getString(i);
+                }
                 sentimentBuffer.add(new Sentiment(element.getInt("pos"),
-                                                  element.getString("color"),
+                                                  colorStrs,
                                                   element.getString("text"),
                                                   element.getInt("index")));
             }
@@ -139,14 +143,22 @@ void update(){
 }
 
 
-void drawText(String txt,float x, float y, int r, int g, int b){
-    //placeholder code
-    fill(r,g,b);
-    text(txt,x,y);
-    
-    if (random(1) < 0.6) {
-        Circle p = new Circle(x, y, r, g, b, diam/2, 0, 0);
+void addText(String txt,int x, int y, String[] col){
+
+    for(int i = 0; i < txt.length(); i++){
+        int[] rgb = strToRgb(col[i]);
+        Circle p = new Circle(x, y + (int) random(0,10),
+                              rgb[0], rgb[1], rgb[2],
+                              (int) random(5,7), 0, 0,
+                              txt.charAt(i));
         circles.add(p);
-    }  
+    } 
 }
 
+int[] strToRgb(String s){
+    int[] ret = new int[3];
+    ret[0] = parseInt(s.substring(1,3),16);
+    ret[1] = parseInt(s.substring(3,5),16);
+    ret[2] = parseInt(s.substring(5,7),16);
+    return ret;
+}
