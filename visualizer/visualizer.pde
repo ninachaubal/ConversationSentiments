@@ -90,9 +90,12 @@ void draw(){
     //display sentiments
     while(!sentimentBuffer.isEmpty()){
         Sentiment sentiment = sentimentBuffer.remove(0);
-        addText(sentiment.text,
-                 textPositions[sentiment.pos].x,textPositions[sentiment.pos].x,
-                 sentiment.col);
+        int x = textPositions[sentiment.pos].x;
+        if(sentiment.pos == 1 || sentiment.pos == 2){
+            //adjust x
+            x -= (sentiment.text.length() * 7);
+        }
+        addText(sentiment.text,x,textPositions[sentiment.pos].y,sentiment.col);
     }
     
     for (Circle b: circles) {
@@ -129,7 +132,7 @@ void update(){
                 JSONArray colorArr = element.getJSONArray("color");
                 String[] colorStrs = new String[colorArr.length()];
                 for(int j = 0; j < colorArr.length(); j++){
-                    colorStrs[i] = colorArr.getString(i);
+                    colorStrs[j] = colorArr.getString(j);
                 }
                 sentimentBuffer.add(new Sentiment(element.getInt("pos"),
                                                   colorStrs,
@@ -144,10 +147,9 @@ void update(){
 
 
 void addText(String txt,int x, int y, String[] col){
-
     for(int i = 0; i < txt.length(); i++){
         int[] rgb = strToRgb(col[i]);
-        Circle p = new Circle(x, y + (int) random(0,10),
+        Circle p = new Circle(x+10*i, y + (int) random(0,10),
                               rgb[0], rgb[1], rgb[2],
                               (int) random(5,7), 0, 0,
                               txt.charAt(i));
