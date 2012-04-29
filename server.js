@@ -1,8 +1,4 @@
 
-
-/**************************************************
- * SERVER STUFF STARTS
- *************************************************/
 //user
 var usr = require('./user');
 //colors
@@ -30,6 +26,11 @@ var inUse = false;
 deliver index.html
 */
 app.use(express.static(__dirname + '/chat'));
+
+/*
+deliver test.html
+*/
+app.use('/test', express.static(__dirname + '/test'));
 
 /*
 GET /table 
@@ -93,6 +94,7 @@ app.get('/sentiments', function(req, res){
             arr.push(sentiment[i]);
         }
     }
+    console.log(arr);
     res.json(arr,200);
 });
 
@@ -180,8 +182,7 @@ function addSentiment(text, pos){
                 "text" : keywords[i].text,
                 "index" : sentimentIndex
             };
-            
-            for(var j = 0 ; j < keywords[i].length; j++ ){
+            for(var j = 0 ; j < keywords[i].text.length; j++ ){
                 var color = getSentimentColor(col.theme.getColor(table[pos].theme),
                                               keywords[i].sentiment);
                 obj.color.push(color);
