@@ -3,12 +3,28 @@ var pos = -1;
 
 //stream vars
 var lastChat = -1;
+var lastSentiment = -1;
+
+//sentiment buffer
+var sentimentBuffer = [];
+
+//chat buffer
+var chatBuffer = [];
 
 //table 
 var table;
 
 //circles
 var circles;
+
+//first time stamp
+var firstTS = undefined;
+
+//starting x coord for the linear viz 
+var startx = 0;
+
+//number of pixels representing 1 second in the linear viz
+var pixps = 5;
 
 $(document).ready(function(){
     //hide new user window
@@ -29,7 +45,7 @@ $(document).ready(function(){
         $('#color').val('');
         $('#adduser').hide();
     });
-    //add user
+    //add user 
     $('#blue').click(function(){
         if($('#username').val() !== undefined){
             addUser($('#username').val(),1);
@@ -61,13 +77,25 @@ $(document).ready(function(){
         removeUser();
     });
     
+    //left and right arrows
+    $('#leftarr').hover(function(){
+        startx += pixps;
+    }, function(){
+    });
+    $('#rightarr').hover(function(){
+        if(startx >= pixps)
+            startx -= pixps;
+    }, function(){
+    });
+    
     alert("Choose a position to get started.");
 });
 
 function update(){
-    updateChat();
+    //updateChat(); this is now done from linear.pde
     updateTable();
-    //updateCircles();
+    //updateCircles(); circles doesn't work
+    updateBuffer();
 }
 
 function updateChat(){
@@ -77,6 +105,10 @@ function updateChat(){
             var content = $('#output').html();
             for(var i in data){
                 if(data[i].index > lastChat){
+                    if(firstTS === undefined){
+                        firstTS = parseInt(data[i].time,10);
+                    }
+                    chatBuffer.push(data[i]);
                     lastChat = data[i].index;
                     content += '<p><span style="color:' + data[i].color +'">' + 
                     data[i].name + ':</span>' + data[i].text + '</p>';
@@ -101,6 +133,20 @@ function updateCircles(){
         url: '/circles',
         success: function(data){
             circles = data;
+        }
+    });
+}
+
+function updateBuffer(){
+    $.ajax({
+        url: '/sentiments?last='+lastSentiment,
+        success: function(data){
+            for(var i in data){
+                if(data[i].index > lastSentiment){
+                    lastSentiment = data[i].index;
+                    sentimentBuffer.push(data[i]);
+                }
+            }
         }
     });
 }

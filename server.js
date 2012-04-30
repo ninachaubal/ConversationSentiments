@@ -63,9 +63,11 @@ last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
 returns the chat stream
 example output - 
-[{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10","pos":"1"},
-{"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11","pos":"4"},
-{"name":"user1", "color":"#11AFBA","text":"nm","index":"12","pos":"1"}]
+[{"name":"user1", "color":"#11AFBA","text":"Hi","index":"10","pos":"1","time":"1256953732"},
+{"name":"user2", "color":"#A82A2A","text":"ssup?","index":"11","pos":"4","time":"1256958752"},
+{"name":"user1", "color":"#11AFBA","text":"nm","index":"12","pos":"1","time":"1257958442"}]
+
+the color is adjusted as per the average sentiment
 */
 app.get('/stream', function(req, res){
     var last = req.param('last');
@@ -87,7 +89,7 @@ returns the sentiment stream
 example output -
 [{"pos":"4","color":["#0D3233", ... ], "text":"keyword","index"="4"},{...}]
 
-here the sentiment data is already added to the color
+the color is adjusted as per sentiment score for each keyword
 */
 app.get('/sentiments', function(req, res){
     var last = req.param('last');
@@ -154,8 +156,8 @@ app.post('/chat', function(req, res){
     var text = req.param('text');
     if(pos !== undefined && pos >= 0 && pos <=3 &&
        text !== undefined && text.length > 0){
-        addChatLine(text,pos);
-        addSentiment(text,pos);
+        var cpos = addChatLine(text,pos);
+        addSentiment(text,pos,cpos);
     }
     res.send('',200);
 });
@@ -202,11 +204,12 @@ app.get('/debug',function(rew,res){
 /*
 adds keywords to the sentiment stream
 */
-function addSentiment(text, pos){
+function addSentiment(text, pos, chatpos){
     if(sentiment.length == sentimentMax){
         sentiment.pop();
     }
     getSentiments(text, function(keywords){
+        var avg = 0;
         for (var i in keywords){
             var obj = {
                 "pos" : pos,
@@ -222,12 +225,17 @@ function addSentiment(text, pos){
             
             sentimentIndex++;
             sentiment.push(obj);
+            avg += parseFloat(keywords[i].sentiment);
         }
+        avg = avg / keywords.length;
+        //adjust color in chat
+        chat[chatpos].color = getSentimentColor(chat[chatpos].color,avg);
     });
 }
 
 /*
 adds text to the chat stream
+returns the index where the last chat line was added
 */
 function addChatLine(text, pos){
     if(chat.length == chatMax){
@@ -238,10 +246,13 @@ function addChatLine(text, pos){
         "color" : table[pos].color,
         "text" : text,
         "index" : chatIndex,
-        "name" : table[pos].name
+        "name" : table[pos].name,
+        "time" : String(Math.round(new Date().getTime() / 1000))
     };
+    var ret = chat.length;
     chatIndex++;
     chat.push(obj);
+    return ret;
 }
 
 /*
