@@ -335,6 +335,8 @@ function reset(){
     //reset  sentiment
     sentiment = [];
     sentimentIndex = 0;
+    
+    inUse = false;
 }
 
 app.listen(process.env.PORT);
