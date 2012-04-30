@@ -67,7 +67,7 @@ $(document).ready(function(){
 function update(){
     updateChat();
     updateTable();
-    updateCircles();
+    //updateCircles();
 }
 
 function updateChat(){

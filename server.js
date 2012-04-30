@@ -161,13 +161,15 @@ app.post('/chat', function(req, res){
 });
 
 /*
-POST /circles
+POST circles 
+This is pretty much a terrible idea
 params:
 arr = [{'x':3,'y':4,'rad':5,'ang':'-1','chr':'a',col:'#2323ff'}, ...]
 */
-app.post('/circles', function(req,res){
+app.get('/circles', function(req,res){
     var arr = req.param('req');
     if(arr !== undefined){
+        console.log(arr);
         circles = JSON.parse(arr);
         res.send('',200);
     }

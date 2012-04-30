@@ -1,4 +1,4 @@
-/* @pjs font="ARLRDBD.ttf"; */
+/* @pjs font="ARLRDBD.TTF"; */
 
 var width = 600;
 var height = 600;
