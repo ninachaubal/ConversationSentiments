@@ -39,8 +39,8 @@ app.use('/test', express.static(__dirname + '/test'));
 GET /table 
 returns the current list of users on the table
 example output - 
-[{"name":"user1","color":"#11AFBA","position":"0"},
- {"name":"user2","color":"#A82A2A","position":"1"}, ...]
+[{"name":"user1","color":"#11AFBA","position":"0","theme":1},
+ {"name":"user2","color":"#A82A2A","position":"1","theme":3}, ...]
 */
 app.get('/table', function(req, res){
     var arr = [];
@@ -227,9 +227,11 @@ function addSentiment(text, pos, chatpos){
             sentiment.push(obj);
             avg += parseFloat(keywords[i].sentiment);
         }
-        avg = avg / keywords.length;
-        //adjust color in chat
-        chat[chatpos].color = getSentimentColor(chat[chatpos].color,avg);
+        if(keywords.length != 0){
+            avg = avg / keywords.length;
+            //adjust color in chat
+            chat[chatpos].color = getSentimentColor(chat[chatpos].color,avg);
+        }
     });
 }
 

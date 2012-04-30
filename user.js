@@ -50,6 +50,7 @@ User.prototype.getData = function(){
     obj.name = this.name;
     obj.color = this.color;
     obj.position = this.position;
+    obj.theme = this.theme;
     return obj;
 };
 

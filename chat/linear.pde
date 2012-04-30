@@ -8,11 +8,12 @@ void setup(){
 
 void draw(){
     background(0);
+    //update start c
+    updateStartX();
     //update chat buffer
     updateChat();
     //update starting time stamp
     getStartTS();
-    
     for(var i in chatBuffer){
         var ts = parseInt(chatBuffer[i].time,10); 
         var text = chatBuffer[i].text.split(' ');
@@ -34,4 +35,15 @@ void draw(){
 
 void getStartTS(){
     startTS = firstTS + startx/pixps;
+}
+
+void updateStartX(){
+    if(mouseX < 50){
+        //left
+        startx += pixps;
+    } else if(mouseX >550){
+        //right
+        if(startx >= pixps)
+            startx -= pixps;
+    }
 }

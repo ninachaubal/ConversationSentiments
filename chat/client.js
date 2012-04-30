@@ -50,24 +50,32 @@ $(document).ready(function(){
         if($('#username').val() !== undefined){
             addUser($('#username').val(),1);
             $('#adduser').hide();
+        } else {
+            pos = -1;
         }
     });
     $('#orange').click(function(){
         if($('#username').val() !== undefined){
             addUser($('#username').val(),2);
             $('#adduser').hide();
+        } else {
+            pos = -1;
         }
     });
     $('#violet').click(function(){
         if($('#username').val() !== undefined){
             addUser($('#username').val(),3);
             $('#adduser').hide();
+        } else {
+            pos = -1;
         }
     });
     $('#green').click(function(){
         if($('#username').val() !== undefined){
             addUser($('#username').val(),4);
             $('#adduser').hide();
+        } else {
+            pos = -1;
         }
     });
     
@@ -75,18 +83,6 @@ $(document).ready(function(){
     $(window).unload(function(){
         removeUser();
     });
-    
-    //left and right arrows
-    $('#leftarr').hover(function(){
-        startx += pixps;
-    }, function(){
-    });
-    $('#rightarr').hover(function(){
-        if(startx >= pixps)
-            startx -= pixps;
-    }, function(){
-    });
-    
 });
 
 function update(){
