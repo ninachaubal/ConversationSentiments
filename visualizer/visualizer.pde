@@ -85,7 +85,7 @@ void setup(){
 
 
 void draw(){
-    background(30);
+    background(0);
 
     // We must always step through time!
     box2d.step();
@@ -101,7 +101,7 @@ void draw(){
             //adjust x
             x -= (sentiment.text.length() * 7);
         }
-        addText(sentiment.text,x,textPositions[sentiment.pos].y,sentiment.col);
+        addText(sentiment.text.toUpperCase(),x,textPositions[sentiment.pos].y,sentiment.col);
     }
     
     for (Circle b: circles) {
