@@ -38,10 +38,10 @@ void getStartTS(){
 }
 
 void updateStartX(){
-    if(mouseX < 50){
+    if(mouseX>0 && mouseX < 50){
         //left
         startx += pixps;
-    } else if(mouseX >550){
+    } else if(mouseX > 550 && mouseX <600){
         //right
         if(startx >= pixps)
             startx -= pixps;

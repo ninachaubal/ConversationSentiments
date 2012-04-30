@@ -91,14 +91,16 @@ void drawSentiment(sentiment){
         var b = parseInt(sentiment.color[i].substring(5,7),16);
         var x = textPositions[sentiment.pos].x;
         if(sentiment.pos == 1 || sentiment.pos == 2){
-            x -= (sentiment.text.length * 7);
+            x -= (sentiment.text.length * 14);
         }
-        var y = textPositions[sentiment.pos].y + Math.round(Math.random()*10);
-        var d = 2*Math.round(5 + Math.random()*2); //radius = 5 to 7 
+        x += (14*i) 
+        var y = textPositions[sentiment.pos].y;
+        var d = 14
         fill(r,g,b);
-        ellipse(x+i,y,d,d);
+        ellipse(x,y,d,d);
+        fill(0);
         textFont(myFont);
-        text(sentiment.text.charAt(i), x+i-5, y+5);
+        text(sentiment.text.toUpperCase().charAt(i), x-5, y+5);
     }
 }
 
