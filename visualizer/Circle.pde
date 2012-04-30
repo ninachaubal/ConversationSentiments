@@ -163,12 +163,12 @@ class Circle {
   HashMap<String,String> getJSON(){
     HashMap<String, String> map = new HashMap <String, String>();
     Vec2 pos = box2d.getBodyPixelCoord(body);
-    map.put("x",pos.x); //x coor
-    map.put("y",pos.y); //y coord
-    map.put("rad",rad); //radius
-    map.put("ang",body.getAngle()); //angle of rotation
+    map.put("x",""+pos.x); //x coor
+    map.put("y",""+pos.y); //y coord
+    map.put("rad",""+rad); //radius
+    map.put("ang",""+body.getAngle()); //angle of rotation
     if(!dynamic){
-        map.put("chr",letter); //char
+        map.put("chr",""+letter); //char
     } else {
         map.put("chr","");
     }
