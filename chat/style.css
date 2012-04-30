@@ -64,3 +64,17 @@
     /*height:90%;*/
     overflow: auto;
 }
+
+#rightarr
+{
+    position:fixed;
+    top:645px;
+    left:570px;
+}
+
+#leftarr
+{
+    position:fixed;
+    top:645px;
+    left:20px;
+}

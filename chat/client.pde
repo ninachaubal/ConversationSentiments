@@ -2,6 +2,7 @@
 
 var width = 600;
 var height = 600;
+
 /*
 positions
 0---------1
@@ -11,9 +12,9 @@ positions
 3---------2
 */
 var positions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
-var textPositions = [{x:50,y:50},{x:width-50,y:50},{x:width-50,y:height-50},{x:50,y:height-50}];
-                 
+var textPositions = [{x:50,y:50},{x:width-50,y:50},{x:width-50,y:height-50},{x:50,y:height-50}];                 
 var diam = 40;
+var namePositions = [{x:25+diam,y:25},{x:width-25-diam,y:25},{x:width-25-diam,y:height-25},{x:25+diam,y:height-25}];
 
 //temporary buffer for sentiments
 var tempBuffer = [];
@@ -44,6 +45,11 @@ void draw(){
         var b = parseInt(table[i].color.substring(5,7),16);
         fill(r,g,b);
         ellipse(positions[i].x,positions[i].y, diam, diam);
+        var x = namePositions[i].x;
+        if(i == 1 || i == 2){
+            x -= (table[i].name.length) * 3; 
+        }
+        text(table[i].name,x, namePositions[i].y);
     }
     
     /*
@@ -90,9 +96,9 @@ void drawSentiment(sentiment){
         var y = textPositions[sentiment.pos].y + Math.round(Math.random()*10);
         var d = 2*Math.round(5 + Math.random()*2); //radius = 5 to 7 
         fill(r,g,b);
-        ellipse(x,y,d,d);
+        ellipse(x+i,y,d,d);
         textFont(myFont);
-        text(sentiment.text.charAt(i), x-5, y+5);
+        text(sentiment.text.charAt(i), x+i-5, y+5);
     }
 }
 

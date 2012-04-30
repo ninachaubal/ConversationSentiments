@@ -73,7 +73,6 @@ $(document).ready(function(){
     
     //unload
     $(window).unload(function(){
-        alert('hello');
         removeUser();
     });
     
@@ -88,7 +87,6 @@ $(document).ready(function(){
     }, function(){
     });
     
-    alert("Choose a position to get started.");
 });
 
 function update(){
