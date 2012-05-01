@@ -156,8 +156,7 @@ app.post('/chat', function(req, res){
     var text = req.param('text');
     if(pos !== undefined && pos >= 0 && pos <=3 &&
        text !== undefined && text.length > 0){
-        var cpos = addChatLine(text,pos);
-        addSentiment(text,pos,cpos);
+        addChatLine(text,pos);
     }
     res.send('',200);
 });
@@ -203,8 +202,9 @@ app.get('/debug',function(rew,res){
 
 /*
 adds keywords to the sentiment stream
+also adds chatObj to the chat stream after adjusting its color
 */
-function addSentiment(text, pos, chatpos){
+function addSentiment(text, pos, chatObj){
     if(sentiment.length == sentimentMax){
         sentiment.pop();
     }
@@ -230,8 +230,11 @@ function addSentiment(text, pos, chatpos){
         if(keywords.length != 0){
             avg = avg / keywords.length;
             //adjust color in chat
-            chat[chatpos].color = getSentimentColor(chat[chatpos].color,avg);
+            chatObj.color = getSentimentColor(chatObj.color,avg);
         }
+        //add the chat object with the sentiment adjusted color
+        chatIndex++;
+        chat.push(chatObj);
     });
 }
 
@@ -251,17 +254,14 @@ function addChatLine(text, pos){
         "name" : table[pos].name,
         "time" : String(Math.round(new Date().getTime() / 1000))
     };
-    var ret = chat.length;
-    chatIndex++;
-    chat.push(obj);
-    return ret;
+    addSentiment(text, pos, obj);
 }
 
 /*
 calls alchemy api to extract keywords and sentiment scores from the text
 */
 function getSentiments(text,callback){
-    var apikey = '9cc8b1c546c26a53ee13d49d7c91acaeb5eea3ce';
+    var apikey = '1e9868483244e57f2ddb61670c0b361ed2a2f204';
     var alchemy = {
         host: 'access.alchemyapi.com',
         path: '/calls/text/TextGetRankedKeywords?apikey='+ apikey +
