@@ -335,6 +335,8 @@ function reset(){
     //reset  sentiment
     sentiment = [];
     sentimentIndex = 0;
+    //reset circles
+    circles = [];
     
     inUse = false;
 }
