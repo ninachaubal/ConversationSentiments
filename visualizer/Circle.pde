@@ -66,10 +66,11 @@ class Circle {
 
   // Drawing the circle
   void display() {
+
     // We look at each body and get its screen position
     Vec2 pos = box2d.getBodyPixelCoord(body);
     // Get its angle of rotation
-    float a = body.getAngle();
+/*    float a = body.getAngle();
 
     rectMode(CENTER);
     pushMatrix();
@@ -87,6 +88,7 @@ class Circle {
     }
     else {fill(r, g, b); ellipse(0, 0, rad*2, rad*2);}
     popMatrix();
+    */
     
     if(dynamic!=true){
       if((millis()-startTime)>2000) {makeBodyDynamic(pos,rad); dynamic = true;}
@@ -178,9 +180,21 @@ class Circle {
   
   String getColorString(){
     String col = "#";
-    col += Integer.toString(r,16);
-    col += Integer.toString(g,16);
-    col += Integer.toString(b,16);
+    String tempR = Integer.toString(r,16);
+    if(tempR.length() == 1){
+      tempR = "0"+tempR;
+    }
+    col += tempR;
+    String tempG = Integer.toString(g,16);
+    if(tempG.length() == 1){
+      tempG = "0"+tempG;
+    }
+    col += tempG;
+    String tempB = Integer.toString(b,16);
+    if(tempB.length() == 1){
+      tempB = "0"+tempB;
+    }
+    col += tempB;
     return col;
   }
 }

@@ -85,7 +85,7 @@ void setup(){
 
 
 void draw(){
-    background(0);
+    //background(0);
 
     // We must always step through time!
     box2d.step();
@@ -124,7 +124,7 @@ void draw(){
         }
     }
     
-    //sendCirclesToServer();
+    sendCirclesToServer();
 }
 
 void update(){
@@ -182,8 +182,7 @@ void sendCirclesToServer(){
     }
     String circleJSON = circleArr.toString();
     String circleRequest = url + "/postcircles?arr=" + encodeURIComponent(circleJSON);
-    println(circleRequest);
-    //loadStrings(circleRequest);
+    loadStrings(circleRequest);
 }
 
  /**
