@@ -52,7 +52,7 @@ void draw(){
         text(table[i].name,x, namePositions[i].y);
     }
     
-    /*
+    
     //draw circles
     for (var i in circles){
         var r = parseInt(circles[i].col.substring(1,3),16);
@@ -61,13 +61,13 @@ void draw(){
         fill(r,g,b);
         var d = 2*circles[i].rad;
         ellipse(circles[i].x,circles[i].y, d, d);
+        /*
         //TODO: display character
         if(circles[i].chr != ''){
-            rotate by circles[i].ang
             display circles[i].chr
-        }
-        */
-    
+        }*/
+    }
+    /*
     //display previous sentiments from temp
     //this causes the sentiments to be shown for a longer time so they can be read
     for(var i in tempBuffer){
@@ -79,8 +79,9 @@ void draw(){
         var sentiment = sentimentBuffer.pop();
         drawSentiment(sentiment);
         tempBuffer.push(sentiment);
-    }
+    }*/
     counter ++;
+    
 }
 
 //draws the keywords in circles

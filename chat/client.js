@@ -88,7 +88,7 @@ $(document).ready(function(){
 function update(){
     //updateChat(); this is now done from linear.pde
     updateTable();
-    //updateCircles(); circles doesn't work
+    updateCircles(); //circles doesn't work
     updateBuffer();
 }
 

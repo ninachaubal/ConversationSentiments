@@ -162,13 +162,13 @@ app.post('/chat', function(req, res){
 });
 
 /*
-POST circles 
+GET postcircles 
 This is pretty much a terrible idea
 params:
 arr = [{'x':3,'y':4,'rad':5,'ang':'-1','chr':'a',col:'#2323ff'}, ...]
 */
 app.get('/circles', function(req,res){
-    var arr = req.param('req');
+    var arr = req.param('arr');
     if(arr !== undefined){
         console.log(arr);
         circles = JSON.parse(arr);
@@ -195,7 +195,7 @@ app.get('/reset', function(req, res){
 /*
 GET debug
 */
-app.get('/debug',function(rew,res){
+app.get('/debug',function(req,res){
     console.log(sentiment);
     res.send('',200);
 });
