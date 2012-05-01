@@ -265,8 +265,8 @@ function getSentiments(text,callback){
     var alchemy = {
         host: 'access.alchemyapi.com',
         path: '/calls/text/TextGetRankedKeywords?apikey='+ apikey +
-              '&outputMode=json&maxRetrieve=5&keywordExtractMode=strict' + 
-            '&sentiment=1&text=' + encodeURIComponent(text)
+              '&outputMode=json&maxRetrieve=5&sentiment=1&text=' 
+              + encodeURIComponent(text)
     };
 
     http.get(alchemy, function(res){
