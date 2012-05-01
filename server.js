@@ -167,7 +167,7 @@ This is pretty much a terrible idea
 params:
 arr = [{'x':3,'y':4,'rad':5,'ang':'-1','chr':'a',col:'#2323ff'}, ...]
 */
-app.get('/circles', function(req,res){
+app.get('/postcircles', function(req,res){
     var arr = req.param('arr');
     if(arr !== undefined){
         console.log(arr);
