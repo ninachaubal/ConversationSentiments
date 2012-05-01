@@ -244,5 +244,5 @@ function start(pos){
             url: '/chat?pos=' + (script[pos].user) +
                  '&text='+encodeURIComponent(script[pos].text)
         });
-        setTimeout(start(pos+1),100000000);
+        setTimeout(start(pos+1),10000000);
 }
