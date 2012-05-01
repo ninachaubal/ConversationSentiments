@@ -11,8 +11,7 @@ positions
 |         |
 3---------2
 */
-var positions = [{x:25,y:25},{x:width-25,y:25},{x:width-25,y:height-25},{x:25,y:height-25}];
-var textPositions = [{x:50,y:50},{x:width-50,y:50},{x:width-50,y:height-50},{x:50,y:height-50}];                 
+var positions = [{x:0,y:0},{x:width,y:0},{x:width,y:height},{x:0,y:height}];
 var diam = 40;
 var namePositions = [{x:25+diam,y:25},{x:width-25-diam,y:25},{x:width-25-diam,y:height-25},{x:25+diam,y:height-25}];
 
@@ -61,48 +60,12 @@ void draw(){
         fill(r,g,b);
         var d = 2*circles[i].rad;
         ellipse(circles[i].x,circles[i].y, d, d);
-        /*
-        //TODO: display character
         if(circles[i].chr != ''){
-            display circles[i].chr
-        }*/
+            text(circles[i].chr,circles[i].x - 5,circles[i].y +5);
+        }
     }
-    /*
-    //display previous sentiments from temp
-    //this causes the sentiments to be shown for a longer time so they can be read
-    for(var i in tempBuffer){
-        drawSentiment(tempBuffer[i]);
-    }
-    
-    //display keywords - doing this since circles dont work and I want to display something
-    while(sentimentBuffer.length > 0){
-        var sentiment = sentimentBuffer.pop();
-        drawSentiment(sentiment);
-        tempBuffer.push(sentiment);
-    }*/
     counter ++;
     
-}
-
-//draws the keywords in circles
-void drawSentiment(sentiment){
-    for(var i in sentiment.color){
-        var r = parseInt(sentiment.color[i].substring(1,3),16);
-        var g = parseInt(sentiment.color[i].substring(3,5),16);
-        var b = parseInt(sentiment.color[i].substring(5,7),16);
-        var x = textPositions[sentiment.pos].x;
-        if(sentiment.pos == 1 || sentiment.pos == 2){
-            x -= (sentiment.text.length * 14);
-        }
-        x += (14*i) 
-        var y = textPositions[sentiment.pos].y;
-        var d = 14
-        fill(r,g,b);
-        ellipse(x,y,d,d);
-        fill(0);
-        textFont(myFont);
-        text(sentiment.text.toUpperCase().charAt(i), x-5, y+5);
-    }
 }
 
 void mouseClicked(){
