@@ -167,9 +167,10 @@ void addText(String txt,int x, int y, String[] col){
 
 int[] strToRgb(String s){
     int[] ret = new int[3];
-    ret[0] = parseInt(s.substring(1,3),16);
-    ret[1] = parseInt(s.substring(3,5),16);
-    ret[2] = parseInt(s.substring(5,7),16);
+    println(s.substring(1,3) + ":" + s.substring(3,5) + ":" + s.substring(5,7));
+    ret[0] = Integer.parseInt(s.substring(1,3),16);
+    ret[1] = Integer.parseInt(s.substring(3,5),16);
+    ret[2] = Integer.parseInt(s.substring(5,7),16);
     return ret;
 }
 
