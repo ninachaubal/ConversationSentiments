@@ -63,10 +63,10 @@ Theme class
 var Theme = {
     mainColor : [
                     '#ffffff',  //default white / no theme
-                    '#007580',  //blue
-                    '#805100',  //orange
-                    '#560080',  //violet
-                    '#4B8000'   //green
+                    '#00afbf',  //blue
+                    '#bf7900',  //orange
+                    '#8000bf',  //violet
+                    '#70bf00'   //green
                 ],
     minHue : [
                 0,
