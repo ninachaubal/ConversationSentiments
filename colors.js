@@ -63,10 +63,10 @@ Theme class
 var Theme = {
     mainColor : [
                     '#ffffff',  //default white / no theme
-                    '#00afbf',  //blue
+                    '#00a4b3',  //blue
                     '#bf7900',  //orange
-                    '#8000bf',  //violet
-                    '#70bf00'   //green
+                    '#7800B3',  //violet
+                    '#69B300'   //green
                 ],
     minHue : [
                 0,
@@ -90,7 +90,7 @@ var Theme = {
         }
         var h = this.minHue[theme] + Math.round(Math.random()*20);
         var s = 100;
-        var v = 75;
+        var v = 70;
         
         var rgb = hsvToRgb(h,s,v);
         var str = '#';

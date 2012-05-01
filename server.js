@@ -219,7 +219,7 @@ function addSentiment(text, pos, chatpos){
             };
             for(var j = 0 ; j < keywords[i].text.length; j++ ){
                 var color = getSentimentColor(col.theme.getColor(table[pos].theme),
-                                              keywords[i].sentiment);
+                                              parseFloat(keywords[i].sentiment));
                 obj.color.push(color);
             }
             
@@ -308,7 +308,8 @@ function getSentimentColor(color, score){
     var hsv = col.rgbToHsv(r,g,b);
     //change the value (hsv[2])
     score += 1; //score is now in [0,2] range
-    hsv[2] = 50 + Math.round(score*25);
+
+    hsv[2] = 40 + Math.round(score*30);
     var rgb = col.hsvToRgb(hsv[0],hsv[1],hsv[2]);
     var str = '#';
     for(var i in rgb){
