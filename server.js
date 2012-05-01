@@ -306,11 +306,9 @@ function getSentimentColor(color, score){
     var g = parseInt(color.substring(3,5),16);
     var b = parseInt(color.substring(5,7),16);
     var hsv = col.rgbToHsv(r,g,b);
-    
     //change the value (hsv[2])
     score += 1; //score is now in [0,2] range
     hsv[2] = 50 + Math.round(score*25);
-    
     var rgb = col.hsvToRgb(hsv[0],hsv[1],hsv[2]);
     var str = '#';
     for(var i in rgb){

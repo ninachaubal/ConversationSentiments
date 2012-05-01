@@ -90,7 +90,7 @@ var Theme = {
         }
         var h = this.minHue[theme] + Math.round(Math.random()*20);
         var s = 100;
-        var v = 50;
+        var v = 75;
         
         var rgb = hsvToRgb(h,s,v);
         var str = '#';
