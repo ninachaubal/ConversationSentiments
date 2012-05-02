@@ -15,9 +15,6 @@ var positions = [{x:0,y:0},{x:width,y:0},{x:width,y:height},{x:0,y:height}];
 var diam = 40;
 var namePositions = [{x:25+diam,y:25},{x:width-25-diam,y:25},{x:width-25-diam,y:height-25},{x:25+diam,y:height-25}];
 
-//temporary buffer for sentiments
-var tempBuffer = [];
-
 //counter
 var counter = 0;
 
@@ -30,11 +27,18 @@ void setup(){
 }
 
 void draw(){
-    background(0);
-    //empty temp once every 5 seconds (assuming 60fps)
-    if(counter%300 == 0){
-        tempBuffer = [];
+    if(bg == 'black'){
+        background(0);
+    } else {
+        background(255);
     }
+    //draw frame
+    stroke(0);
+    line(0,0,width,0);
+    line(0,0,0,height);
+    line(width-1,0,width-1,height);
+    line(0,height-1,width,height-1);
+    noStroke();
     //get updates from server
     update();
     //draw the table
@@ -51,21 +55,34 @@ void draw(){
         text(table[i].name,x, namePositions[i].y);
     }
     
-    
-    //draw circles
-    for (var i in circles){
-        var r = parseInt(circles[i].col.substring(1,3),16);
-        var g = parseInt(circles[i].col.substring(3,5),16);
-        var b = parseInt(circles[i].col.substring(5,7),16);
-        fill(r,g,b);
-        var d = 2*circles[i].rad;
-        ellipse(circles[i].x,circles[i].y, d, d);
-        if(circles[i].chr != ''){
-            text(circles[i].chr,circles[i].x - 5,circles[i].y +5);
+    if(type != 'none'){
+        //draw old circles
+        for(var i in circles){
+            if(type == 'circles' && circles[i].l != 4){
+                continue;
+            }
+            fill(circles[i].r,circles[i].g,circles[i].b,circles[i].a);
+            ellipse(circles[i].x,circles[i].y,2*circles[i].rad,2*circles[i].rad);
+        }
+        //draw new sentiments
+        while(sentimentBuffer.length != 0){
+            var sentiment = sentimentBuffer.pop();
+            //we draw one circle or splatter for each keyword
+            //since all the colors in sentiment.color are adjusted for
+            //the sentiment, we can pick any one of them
+            int r = parseInt(sentiment.color[0].substring(1,3),16);
+            int g = parseInt(sentiment.color[0].substring(3,5),16);
+            int b = parseInt(sentiment.color[0].substring(5,7),16);
+            var i = parseInt(sentiment.index);
+            int x = (7*i*Math.cos(i)) + (width/2);
+            int y = (7*i*Math.sin(i)) + (height/2);
+            if (type == 'splatters'){
+                drawCircles(x,y,15,4, r, g, b);
+            } else {
+                drawCircles(x,y,15,1, r, g, b);
+            }
         }
     }
-    counter ++;
-    
 }
 
 void mouseClicked(){
@@ -92,4 +109,34 @@ void mouseClicked(){
     $('#username').val('');
     $('#color').val('');
     $('#adduser').hide();
+}
+
+// Circle splatter machine
+void drawCircles(float x, float y, int radius, int level, float r, float g, float b)
+{
+  noStroke();
+  //save this circle
+  circles.push({
+    x : x,
+    y : y,
+    rad : radius,
+    r : r,
+    g : g,
+    b : b,
+    a : 170,
+    l : level
+  });
+  console.log(level);
+  fill(r,g,b,170);
+  ellipse(x, y, radius*2, radius*2);
+  if (level > 1) {
+    level = level - 1;
+    int num = int (random(2, 5));
+    for(int i=0; i<num; i++) {
+      float a = random(0, TWO_PI);
+      float nx = x + cos(a) * 6.0 * level;
+      float ny = y + sin(a) * 6.0 * level;
+      drawCircles(nx, ny, radius/2, level, r, g, b);
+    }
+  }
 }

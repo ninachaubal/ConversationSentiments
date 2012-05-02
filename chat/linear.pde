@@ -1,21 +1,29 @@
 
 var startTS;
 
-var byTime = false;
-
 void setup(){
     size(600,100);
     smooth();
 }
 
 void draw(){
-    background(0);
+    if(bg == 'black'){
+        background(0);
+    } else {
+        background(255);
+    }
+    //draw frame
+    stroke(0);
+    line(0,0,width,0);
+    line(0,0,0,height);
+    line(width-1,0,width-1,height);
+    line(0,height-1,width,height-1);
     //update start c
     updateStartX();
     //update chat buffer
     updateChat();
     //update starting time stamp
-    if(byTime){
+    if(ltype == 'time'){
         getStartTS();
         for(var i in chatBuffer){
             var ts = parseInt(chatBuffer[i].time,10); 
@@ -69,8 +77,4 @@ void updateStartX(){
         if(startx >= pixps)
             startx -= pixps;
     }
-}
-
-void mouseClicked(){
-    byTime = !byTime;
 }

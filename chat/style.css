@@ -1,3 +1,8 @@
+#body
+{
+    background-color:#ffffff;
+}
+
 #chat
 {
     position: fixed;
@@ -78,4 +83,22 @@
     position:fixed;
     top:645px;
     left:20px;
+}
+
+h1
+{
+    font-family: helvetica, arial, sans-serif;
+}
+
+#opt
+{
+    position:fixed;
+    top: 20px;
+    left:650px;
+}
+
+#options
+{
+    background:#ffffff;
+    padding:10px;
 }

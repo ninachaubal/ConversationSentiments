@@ -15,7 +15,7 @@ var chatBuffer = [];
 var table;
 
 //circles
-var circles;
+var circles = [];
 
 //first time stamp
 var firstTS = undefined;
@@ -26,9 +26,17 @@ var startx = 0;
 //number of pixels representing 1 second in the linear viz
 var pixps = 5;
 
+//options
+var bg = 'black';
+var type = 'splatters';
+var ltype = 'order';
+
 $(document).ready(function(){
     //hide new user window
     $('#adduser').hide();
+    //hide options
+    $('#options').hide();
+    
     //send button
     $('#btn').click(function(){
         if(pos>=0 && pos<=3){
@@ -79,16 +87,61 @@ $(document).ready(function(){
         }
     });
     
+    //options
+    $(".inline").colorbox({inline:true, width:"50%"});
+    $('#bg').change(function(){
+        changeTheme($('#bg').val());
+    });
+    $('#viztype').change(function(){
+        type = $('#viztype').val(); 
+    });
+    $('#linviztype').change(function(){
+        ltype = $('#viztype').val(); 
+    });
+    $('#senti').change(function(){
+        changeSenti($('#senti').val());
+    });
+    
     //unload
     $(window).unload(function(){
         removeUser();
     });
 });
 
+function changeTheme(color){
+    bg = color;
+    if(color == 'white'){
+        //make everything else black
+        $('#adduser').css('background-color','#000000');
+        $('#adduser').css('color','#ffffff');
+        
+    } else {
+        //make everything else white
+        $('#adduser').css('background-color','#ffffff');
+        $('#adduser').css('color','#000000');
+    }
+    
+}
+
+function changeSenti(source){
+    if(source == 'senti'){
+        alert('SentiWordNet isn\'t completely supported at this time');
+        /*$.ajax({
+            type: 'POST',
+            url: '/swn?val=true'
+        });*/
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/swn?val=false'
+        });
+    }
+}
+
 function update(){
     //updateChat(); this is now done from linear.pde
     updateTable();
-    updateCircles(); //circles doesn't work
+    //updateCircles(); //circles doesn't work
     updateBuffer();
 }
 
