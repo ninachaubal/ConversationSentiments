@@ -334,7 +334,6 @@ function getSentimentsFromSWN(text, callback){
         });
         res.on('end', function(){
             var dataObj = JSON.parse(data);
-            console.log(dataObj);
             callback(dataObj);
         });
     });
