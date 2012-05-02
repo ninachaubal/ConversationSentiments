@@ -327,13 +327,13 @@ function getSentimentsFromSWN(text, callback){
         path: '/sentiwordnet.php?q=' + encodeURIComponent(text)
     };
 
-    http.get(alchemy, function(res){
+    http.get(sentiwordnet, function(res){
         var data = "";
         res.on('data', function(chunk){
             data+=chunk;
         });
         res.on('end', function(){
-            var dataobj = JSON.parse(data);
+            var dataObj = JSON.parse(data);
             callback(dataObj);
         });
     });
