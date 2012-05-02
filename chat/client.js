@@ -124,7 +124,7 @@ function changeTheme(color){
 }
 
 function changeSenti(source){
-    if(source == 'senti'){
+    if(source == 'swn'){
         $.ajax({
             type: 'POST',
             url: '/swn?val=true'
