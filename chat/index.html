@@ -3,18 +3,47 @@
     <head>
         <title>Conversation Sentiments</title>
         <meta charset="utf-8">
+        <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
+        <script type='text/javascript' src='jquery.colorbox.js'></script>
+        <script type='text/javascript'>
+        $(document).ready(function(){
+            $(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
+        });
+        </script>
         <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="colorbox.css" />
     </head>
     <body>
         <h1>Conversation Sentiments</h1>
         <div>
         <h2>About</h2>
-        <p>Motivation and intended audience stuff goes here</p>
-        <p>We should also talk about the various aspects of the viz </p>
+        <p>
+            Conversation Sentiments performs sentiment analysis on a
+            conversation and visualizes the changes in sentiment during the
+            conversation. Each user is associated with a color scheme and the
+            colors get lighter or darker depending on whether the sentiment
+            associated with what the user says is positive or negative. It shows
+            trends in sentiment in the conversation and how turn taking is
+            affected by sentiment.
+        </p>
+        <p>
+            This project uses AlchemyAPI and SentiWordNet for Sentiment Analysis
+        </p>
+        <p>
+            Conversation Sentiments is a <a href='http://social.cs.illinois.edu/class/cs467/'>CS 467</a>
+            final project by
+            <ul>
+                <li><a href='mailto:chaubal1@illinois.edu'>Niraj Chaubal</a></li>
+                <li><a href='mailto:roy18@illinois.edu'>Rajarshi Roy</a></li>
+                <li><a href='mailto:kalchev2@illinois.edu'>Reneta Kalcheva</a></li>
+            </ul>
+        </p>
         </div>
         <div>
-        <h2>Patters</h2>
-        <p>Friends stuff goes here</p>
+        <h2>Patterns</h2>
+        <p><a class="group3" href="../content/ohoopee1.jpg" title="Me and my grandfather on the Ohoopee.">Grouped Photo 1</a></p>
+    	<p><a class="group3" href="../content/ohoopee2.jpg" title="On the Ohoopee as a child">Grouped Photo 2</a></p>
+		<p><a class="group3" href="../content/ohoopee3.jpg" title="On the Ohoopee as an adult">Grouped Photo 3</a></p>
         </div>
         <div>
         <h2>Visualization</h2>
@@ -25,5 +54,6 @@
 You may need to install the pbox2d and json libraries included in the download 
         </p>
         </div>
+        <a href="https://github.com/ninch/ConversationSentiments"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
 </body>
 </html>

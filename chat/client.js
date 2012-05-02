@@ -102,6 +102,11 @@ $(document).ready(function(){
         changeSenti($('#senti').val());
     });
     
+    //reset
+    $('#reset').click(function(){
+        $.ajax({url:'/reset'});
+    });
+    
     //unload
     $(window).unload(function(){
         removeUser();

@@ -97,6 +97,13 @@ h1
     left:650px;
 }
 
+#reset
+{
+    position:fixed;
+    top: 35px;
+    left:650px;
+}
+
 #options
 {
     background:#ffffff;
