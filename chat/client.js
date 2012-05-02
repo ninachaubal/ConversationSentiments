@@ -125,11 +125,10 @@ function changeTheme(color){
 
 function changeSenti(source){
     if(source == 'senti'){
-        alert('SentiWordNet isn\'t completely supported at this time');
-        /*$.ajax({
+        $.ajax({
             type: 'POST',
             url: '/swn?val=true'
-        });*/
+        });
     } else {
         $.ajax({
             type: 'POST',

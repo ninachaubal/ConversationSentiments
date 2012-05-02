@@ -322,43 +322,19 @@ this function does absolutely nothing to select important keywords
 which may result in it generating a lot of keyword
 */
 function getSentimentsFromSWN(text, callback){    
-    var words = text.split(' ');
-    var keywords = [];
-    for(var i in words){
-        callSWN(words[i],function(score){
-            keywords.push({
-                    'text' : words[i],
-                    'sentiment':score
-                });
-        });
-    }
-}
-/* helper funciton scrapes data from SWN webpage*/
-function callSWN(text,callback){
-    var swn = {
-        host: 'sentiwordnet.isti.cnr.it',
-        path: '/search.php?q='+encodeURIComponent(text)
+    var sentiwordnet = {
+        host: 'www.tweetsichord.com',
+        path: '/sentiwordnet.php?q=' + encodeURIComponent(text)
     };
-    http.get(swn, function(res){
+
+    http.get(alchemy, function(res){
         var data = "";
         res.on('data', function(chunk){
             data+=chunk;
         });
         res.on('end', function(){
-            var lines = data.split('\n');
-            if(lines[25] !== undefined && lines[27] !== undefined){
-                var pline = lines[25].split(': ');
-                var nline = lines[27].split(': ');
-                if(pline.length == 2 && nline.length==2){
-                    pline = pline[1].split('<');
-                    nline = nline[1].split('<');
-                    var p = parseFloat(pline[0]);
-                    var n = parseFloat(pline[0]);
-                    var score = p - n;
-                    console.log(score);
-                    callback(score);
-                }
-            }
+            var dataobj = JSON.parse(data);
+            callback(dataObj);
         });
     });
 }
