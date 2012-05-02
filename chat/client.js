@@ -27,7 +27,7 @@ var startx = 0;
 var pixps = 5;
 
 //options
-var bg = 'black';
+var bg = 'white';
 var type = 'splatters';
 var ltype = 'order';
 

@@ -22,7 +22,8 @@
     position:fixed;
     top:120px;
     left:190px;
-    background:#ffffff;
+    background:#000000;
+    color:#ffffff;
     border-radius: 15px;
     padding:20px;
 }
