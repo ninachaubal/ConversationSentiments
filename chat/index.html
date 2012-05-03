@@ -7,7 +7,7 @@
         <script type='text/javascript' src='jquery.colorbox.js'></script>
         <script type='text/javascript'>
         $(document).ready(function(){
-            $(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
+            $(".group3").colorbox({rel:'group3', transition:"none", width:"90%", height:"95%"});
         });
         </script>
         <link rel="stylesheet" type="text/css" href="style.css" />
@@ -27,7 +27,8 @@
             affected by sentiment.
         </p>
         <p>
-            This project uses AlchemyAPI and SentiWordNet for Sentiment Analysis
+            This project uses <a href='http://www.alchemyapi.com/'>AlchemyAPI</a>
+            and <a href='http://sentiwordnet.isti.cnr.it/'>SentiWordNet</a> for Sentiment Analysis
         </p>
         <p>
             Conversation Sentiments is a <a href='http://social.cs.illinois.edu/class/cs467/'>CS 467</a>
@@ -41,12 +42,12 @@
         </div>
         <div>
         <h2>Screenshots and Patterns</h2>
-        <p><a class="group3" href="images/splatters.png" title="splatters">Splatters</a></p>
-    	<p><a class="group3" href="images/circles.png" title="circles">Circles</a></p>
-		<p><a class="group3" href="images/splatters_blackbg.png" title="splatters">Splatters</a></p>
-		<p><a class="group3" href="images/linear.png" title="linear">Linear</a></p>
-		<p><a class="group3" href="images/physics_circles.png" title="phys">Physics Circles</a></p>
-		<p><a class="group3" href="images/physics_circles_2.png" title="phys">Physics Circles</a></p>
+        <p><a class="group3" href="images/splatters.png" title="This view shows a conversation between four people. The color splatters spiral out from the center as the conversation proceeds. We can observe the dark colors associalted with negative sentiment and the light colors associated with positive sentiment">Splatters</a></p>
+            	<p><a class="group3" href="images/splatters_blackbg.png" title="This is the same view with a different background. As with the previous image, we are able to see the changes in the sentiment by looking at the colors. We can see how users' sentiments are affected by other users. Here we can see the green user becoming darker after the purple user becomes darker">Splatters 2</a></p>
+    	<p><a class="group3" href="images/circles.png" title="This shows the same conversation with circles instead of color splatters representing each keyword">Circles</a></p>
+		<p><a class="group3" href="images/linear.png" title="This gives us a linear view of the same conversation. While preserving the same relation between color and sentiment, this view lets us observe turn taking behavior. The lower image accounts for time between user responses.">Linear</a></p>
+		<p><a class="group3" href="images/physics_circles.png" title="This is a longer conversation being displayed using circles. The circles aggregate towards the center as the conversation proceeds. We can see layers of light and dark colors as sentiments in the conversation change over time">Physics Circles</a></p>
+		<p><a class="group3" href="images/physics_circles_2.png" title="This is the same view of another conversation between three people. The layering of sentiment is more pronounced">Physics Circles 2</a></p>
         </div>
         <div>
         <h2>Visualization</h2>
