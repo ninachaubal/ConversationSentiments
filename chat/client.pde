@@ -41,9 +41,12 @@ void draw(){
     noStroke();
     //get updates from server
     update();
+    
+    var reset = true;
     //draw the table
     for(var i in table){
         var col = table[i].color;
+        reset = reset && (col == '#ffffff');
         if(bg == 'white' && col == '#ffffff'){
             col = '#000000'
         }
@@ -57,6 +60,14 @@ void draw(){
             x -= (table[i].name.length) * 3; 
         }
         text(table[i].name,x, namePositions[i].y);
+    }
+    
+    if(reset){
+        //if reset is still true the server may have been reset
+        resetClient();
+    } else {
+        //we have atleast one user logged in, it is possible to reset
+        resetable = true;
     }
     
     if(type != 'none'){
@@ -130,7 +141,6 @@ void drawCircles(float x, float y, int radius, int level, float r, float g, floa
     a : 170,
     l : level
   });
-  console.log(level);
   fill(r,g,b,170);
   ellipse(x, y, radius*2, radius*2);
   if (level > 1) {

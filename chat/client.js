@@ -31,6 +31,9 @@ var bg = 'white';
 var type = 'splatters';
 var ltype = 'order';
 
+//reset
+var resetable = false;
+
 $(document).ready(function(){
     //hide new user window
     $('#adduser').hide();
@@ -88,7 +91,7 @@ $(document).ready(function(){
     });
     
     //options
-    $(".inline").colorbox({inline:true, width:"50%"});
+    $(".inline").colorbox({inline:true, width:"30%"});
     $('#bg').change(function(){
         changeTheme($('#bg').val());
     });
@@ -96,7 +99,7 @@ $(document).ready(function(){
         type = $('#viztype').val(); 
     });
     $('#linviztype').change(function(){
-        ltype = $('#viztype').val(); 
+        ltype = $('#linviztype').val(); 
     });
     $('#senti').change(function(){
         changeSenti($('#senti').val());
@@ -222,4 +225,19 @@ function sendMessage(text){
         type: 'POST',
         url: '/chat?pos='+pos+'&text='+encodeURIComponent(text)
     });
+}
+
+//resets the client
+function resetClient(){
+    if(resetable){
+        pos = -1;   
+        lastChat = -1;
+        lastSentiment = -1;
+        sentimentBuffer = [];
+        chatBuffer = [];
+        circles = [];
+        firstTS = undefined;
+        startx = 0;
+        resetable = false;
+    }
 }
