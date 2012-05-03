@@ -41,7 +41,7 @@
         </p>
         </div>
         <div>
-        <h2>Screenshots and Patterns</h2>
+        <h2>Screenshots</h2>
         <p><a class="group3" href="images/splatters.png" title="This view shows a conversation between four people. The color splatters spiral out from the center as the conversation proceeds. We can observe the dark colors associalted with negative sentiment and the light colors associated with positive sentiment">Splatters</a></p>
         <p><a class="group3" href="images/splatters_blackbg.png" title="This is the same view with a different background. As with the previous image, we are able to see the changes in the sentiment by looking at the colors. We can see how users' sentiments are affected by other users. Here we can see the green user becoming darker after the purple user becomes darker">Splatters 2</a></p>
     	<p><a class="group3" href="images/circles.png" title="This shows the same conversation with circles instead of color splatters representing each keyword">Circles</a></p>
@@ -60,6 +60,20 @@ You may need to install the pbox2d and json libraries included in the download
         </p>
         </div>
         <div>
+        <div>
+        <h2>Uncovered Patterns</h2>
+        <p>
+        We applied our visualization to the Friends episode &quot;The One on the Last Night&quot; (Season 6, Episode 6). This episode is set in the night before Rachel moved out of Monica’s apartment to live with Phoebe. Rachel was moving out since Chandler was moving in to live with Monica. Since Rachel and Monica are really close roommates and friends, there were sad sentiments between Rachel and Monica. Phoebe’s role in the conversation was primarily to cheer them up and distract them. However, to make matters interesting, A quarrel started between Rachel and Monica about &quot;things they would not miss about each other&quot;. Watch the video below to see this conversation visualized. (Rachel: pink/violet, Monica: Blue, Phoebe: Orange/Yellow). The start of the video shows the fast-forward version. The rest of the video is the real-time version for a deeper analysis. Please change video resolution to 720p or 1080p to view the conversation text clearly.
+        </p>
+        
+        <p>
+        From the generated visualization, we can see a chronological record of the sentiments during the conversation is a ring-like structure. Closest to the center was when the conversation began. During the beginning, the participants of the conversation were busy with Rachel’s packing and thus had mostly neutral sentiments. Then the quarrel between Monica and Rachel began and we can see layers of darker shades. Interestingly, Phoebe also had darker shades during this time indicating that she was affected by the quarrel even though she was not involved in it. Finally, on the outermost layer, we see brighter colors when the quarrel was resolved. However, for Rachel and Monica, the outermost layer’s colors were darker than that of the innermost layer since it was time for Rachel to move out and both Monica and Rachel were feeling sad. However, Phoebe seems to be rather happy at the end that Rachel is moving in with her!
+        </p>
+    <img border="0" src="images/analysis.png" alt="Analysis Image" width="1056" height="740">
+        <p>
+        Note that the sentiments were rated between 1 to 10 manually and separately by the three of us and averaged. This was done since sentiment analysis tools were not generating accurate results. 
+        </p>
+        </div>
         <h2>Video</h2>
         <iframe width="960" height="720" src="http://www.youtube.com/embed/sL7UwKqWiaU" frameborder="0" allowfullscreen></iframe>
         </div>
