@@ -49,10 +49,11 @@ PBox2D box2d;
 
 // A list for all of our rectangles
 ArrayList<Circle> circles;
-
+ArrayList<Boundary> boundaries;
 PFont myFont;
 
 //url
+//String url = "http://192.168.2.2:8080";
 String url = "http://conversationsentiments.herokuapp.com"; //production server
 //String url = "http://conversationsentiments.ninch.c9.io"; //debug server
 
@@ -81,6 +82,13 @@ void setup(){
 
     // Create ArrayLists	
     circles = new ArrayList<Circle>();
+    boundaries = new ArrayList<Boundary>();
+        boundaries.add(new Boundary(width/2,height,width,10));
+  boundaries.add(new Boundary(width/2,0,width,10));
+  boundaries.add(new Boundary(0,height/2,10,height));
+  boundaries.add(new Boundary(width,height/2,10,height));
+  boundaries.add(new Boundary(width/2,height/2,2,50));
+  boundaries.add(new Boundary(width/2,height/2,50,2));
 }
 
 

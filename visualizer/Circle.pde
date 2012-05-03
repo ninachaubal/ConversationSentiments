@@ -57,7 +57,14 @@ class Circle {
     worldTarget.subLocal(bodyVec);
     // Then, scale the vector to the specified force
     worldTarget.normalize();
-    worldTarget.mulLocal((float) 50);
+    
+    float magnitude = mag(worldTarget.x, worldTarget.y);
+    //worldTarget.mulLocal((float) 50);
+    float mag2 = (1/(magnitude));//*(1/magnitude)*(1/magnitude)*(1/magnitude);
+    worldTarget.mulLocal((float) mag2*600);
+    
+    
+    //worldTarget.mulLocal((float) 50);
     // Now apply it to the body's center of mass.
     body.applyForce(worldTarget, bodyVec);
   }
@@ -70,7 +77,8 @@ class Circle {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getBodyPixelCoord(body);
     // Get its angle of rotation
-/*    float a = body.getAngle();
+    /*
+    float a = body.getAngle();
 
     rectMode(CENTER);
     pushMatrix();
