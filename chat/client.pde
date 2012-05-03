@@ -43,9 +43,13 @@ void draw(){
     update();
     //draw the table
     for(var i in table){
-        var r = parseInt(table[i].color.substring(1,3),16);
-        var g = parseInt(table[i].color.substring(3,5),16);
-        var b = parseInt(table[i].color.substring(5,7),16);
+        var col = table[i].color;
+        if(bg == 'white' && col == '#ffffff'){
+            col = '#000000'
+        }
+        var r = parseInt(col.substring(1,3),16);
+        var g = parseInt(col.substring(3,5),16);
+        var b = parseInt(col.substring(5,7),16);
         fill(r,g,b);
         ellipse(positions[i].x,positions[i].y, diam, diam);
         var x = namePositions[i].x;
