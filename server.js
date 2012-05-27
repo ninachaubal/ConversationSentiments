@@ -90,7 +90,7 @@ last = the last index that was recieved from previous calls.
 if this is the first call, call with negative last
 returns the sentiment stream
 example output -
-[{"pos":"4","color":["#0D3233", ... ], "text":"keyword","index"="4"},{...}]
+[{"pos":"4","color":"#0D3233", "text":"keyword","index"="4"},{...}]
 
 the color is adjusted as per sentiment score for each keyword
 */
@@ -220,18 +220,14 @@ function addSentiment(text, pos, chatObj){
     getSentiments(text, function(keywords){
         var avg = 0;
         for (var i in keywords){
+            var color = getSentimentColor(col.theme.getColor(table[pos].theme),
+                                              parseFloat(keywords[i].sentiment));
             var obj = {
                 "pos" : pos,
-                "color" : [],
+                "color" : color,
                 "text" : keywords[i].text,
                 "index" : sentimentIndex
             };
-            for(var j = 0 ; j < keywords[i].text.length; j++ ){
-                var color = getSentimentColor(col.theme.getColor(table[pos].theme),
-                                              parseFloat(keywords[i].sentiment));
-                obj.color.push(color);
-            }
-            
             sentimentIndex++;
             sentiment.push(obj);
             avg += parseFloat(keywords[i].sentiment);

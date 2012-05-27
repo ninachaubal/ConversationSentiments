@@ -85,9 +85,9 @@ void draw(){
             //we draw one circle or splatter for each keyword
             //since all the colors in sentiment.color are adjusted for
             //the sentiment, we can pick any one of them
-            int r = parseInt(sentiment.color[0].substring(1,3),16);
-            int g = parseInt(sentiment.color[0].substring(3,5),16);
-            int b = parseInt(sentiment.color[0].substring(5,7),16);
+            int r = parseInt(sentiment.color.substring(1,3),16);
+            int g = parseInt(sentiment.color.substring(3,5),16);
+            int b = parseInt(sentiment.color.substring(5,7),16);
             var i = parseInt(sentiment.index)%30;
             int x = (7*i*Math.cos(i)) + (width/2);
             int y = (7*i*Math.sin(i)) + (height/2);
