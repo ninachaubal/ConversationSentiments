@@ -60,4 +60,9 @@ exports.hsvToRgb = hsvToRgb;
 var colors = function() {
     // TODO: implement evenly spaced out non repeating colors
 };
+
+colors.prototype.getColor = function() {
+    // TODO: 
+}
+
 exports.colors = colors;
