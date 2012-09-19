@@ -4,79 +4,75 @@
         <title>Conversation Sentiments</title>
         <meta charset="utf-8">
         <script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
+        <script type='text/javascript' src='http://cloud.github.com/downloads/processing-js/processing-js/processing-1.3.6.min.js'></script>
         <script type='text/javascript' src='jquery.colorbox.js'></script>
-        <script type='text/javascript'>
-        $(document).ready(function(){
-            $(".group3").colorbox({rel:'group3', transition:"none", width:"90%", height:"97%"});
-        });
-        </script>
+        <script type='text/javascript' src='client.js'> </script>
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="stylesheet" type="text/css" href="colorbox.css" />
     </head>
-    <body>
-        <h1>Conversation Sentiments</h1>
-        <div>
-        <h2>About</h2>
-        <p>
-            Conversation Sentiments performs sentiment analysis on a
-            conversation and visualizes the changes in sentiment during the
-            conversation. Each user is associated with a color scheme and the
-            colors get lighter or darker depending on whether the sentiment
-            associated with what the user says is positive or negative. It shows
-            trends in sentiment in the conversation and how turn taking is
-            affected by sentiment.
-        </p>
-        <p>
-            This project uses <a href='http://www.alchemyapi.com/'>AlchemyAPI</a>
-            and <a href='http://sentiwordnet.isti.cnr.it/'>SentiWordNet</a> for Sentiment Analysis
-        </p>
-        <p>
-            Conversation Sentiments is a <a href='http://social.cs.illinois.edu/class/cs467/'>CS 467</a>
-            final project by
-            <ul>
-                <li><a href='mailto:chaubal1@illinois.edu'>Niraj Chaubal</a></li>
-                <li><a href='mailto:roy18@illinois.edu'>Rajarshi Roy</a></li>
-                <li><a href='mailto:kalchev2@illinois.edu'>Reneta Kalcheva</a></li>
-            </ul>
-        </p>
+    <body id='body'>
+    <p><a id='opt' class='inline' href="#inline_content">options</a></p>
+    <p><a id='reset' href="javascript:void(0)">reset</a></p>
+        <div id='canvasdiv'>
+            <canvas data-processing-sources="client.pde"></canvas>
         </div>
-        <div>
-        <h2>Screenshots</h2>
-        <p><a class="group3" href="images/splatters.png" title="This view shows a conversation between four people. The color splatters spiral out from the center as the conversation proceeds. We can observe the dark colors associalted with negative sentiment and the light colors associated with positive sentiment">Splatters</a></p>
-        <p><a class="group3" href="images/splatters_blackbg.png" title="This is the same view with a different background. As with the previous image, we are able to see the changes in the sentiment by looking at the colors. We can see how users' sentiments are affected by other users. Here we can see the green user becoming darker after the purple user becomes darker">Splatters 2</a></p>
-    	<p><a class="group3" href="images/circles.png" title="This shows the same conversation with circles instead of color splatters representing each keyword">Circles</a></p>
-		<p><a class="group3" href="images/linear.png" title="This gives us a linear view of the same conversation. While preserving the same relation between color and sentiment, this view lets us observe turn taking behavior. The lower image accounts for time between user responses.">Linear</a></p>
-		<p><a class="group3" href="images/physics_circles.png" title="This is a longer conversation being displayed using circles. The circles aggregate towards the center as the conversation proceeds. We can see layers of light and dark colors as sentiments in the conversation change over time">Physics Circles</a></p>
-		<p><a class="group3" href="images/physics_circles_2.png" title="This is the same view of another conversation between three people. The layering of sentiment is more pronounced">Physics Circles 2</a></p>
-		<p><a class="group3" href="images/analysis.png" title="This is the result of using Conversation Sentiments to analyze Season 6 Episode 6 of Friends">Friends Analysis</a></p>
+        <div id='lineardiv'>
+            <img id='leftarr' src='img/left.png' />
+            <canvas data-processing-sources="linear.pde"></canvas>
+            <img id='rightarr' src='img/right.png' />
         </div>
-        <div>
-        <h2>Visualization</h2>
-        <p>Open <a href='convsent.html'>Conversation Sentiments</a></p>
-        <p>
-        To view the visualization with the circles and physics download the 
-        <a href='http://dl.dropbox.com/u/21654077/visualizer.zip'>processing sketch.</a>
-You may need to install the pbox2d and json libraries included in the download 
-        </p>
+        <div id='chat'>
+            <div id='output'></div>
+            <div id="inputdiv">
+                <input id='inp' x-webkit-speech />
+                <input id='btn' type='button' value='send' />
+            </div>
         </div>
-        <div>
-        <div>
-        <h2>Uncovered Patterns</h2>
-        <p>
-        We applied our visualization to the Friends episode &quot;The One on the Last Night&quot; (Season 6, Episode 6). This episode is set in the night before Rachel moved out of Monica’s apartment to live with Phoebe. Rachel was moving out since Chandler was moving in to live with Monica. Since Rachel and Monica are really close roommates and friends, there were sad sentiments between Rachel and Monica. Phoebe’s role in the conversation was primarily to cheer them up and distract them. However, to make matters interesting, A quarrel started between Rachel and Monica about &quot;things they would not miss about each other&quot;. Watch the video below to see this conversation visualized. (Rachel: pink/violet, Monica: Blue, Phoebe: Orange/Yellow). The start of the video shows the fast-forward version. The rest of the video is the real-time version for a deeper analysis. Please change video resolution to 720p or 1080p to view the conversation text clearly.
-        </p>
-        
-        <p>
-        From the generated visualization, we can see a chronological record of the sentiments during the conversation is a ring-like structure. Closest to the center was when the conversation began. During the beginning, the participants of the conversation were busy with Rachel’s packing and thus had mostly neutral sentiments. Then the quarrel between Monica and Rachel began and we can see layers of darker shades. Interestingly, Phoebe also had darker shades during this time indicating that she was affected by the quarrel even though she was not involved in it. Finally, on the outermost layer, we see brighter colors when the quarrel was resolved. However, for Rachel and Monica, the outermost layer’s colors were darker than that of the innermost layer since it was time for Rachel to move out and both Monica and Rachel were feeling sad. However, Phoebe seems to be rather happy at the end that Rachel is moving in with her!
-        </p>
-    <img border="0" src="images/analysis.png" alt="Analysis Image" width="1056" height="740">
-        <p>
-        Note that the sentiments were rated between 1 to 10 manually and separately by the three of us and averaged. This was done since sentiment analysis tools were not generating accurate results. 
-        </p>
+        <div id='adduser'>
+            <img id='cancel' src='img/cancel.png' />
+            <p>Name:</p>
+            <p>
+            <input type='text' id='username' />
+            </p>
+            <p>Theme:</p>
+            <p>
+                <input type='button' class='themebutton' id='blue' />
+                <input type='button' class='themebutton' id='orange' />
+            </p>
+            <p>
+                <input type='button' class='themebutton' id='violet' />
+                <input type='button' class='themebutton' id='green' />
+            </p>
         </div>
-        <h2>Video</h2>
-        <iframe width="960" height="720" src="http://www.youtube.com/embed/sL7UwKqWiaU" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <a href="https://github.com/ninch/ConversationSentiments"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
+        <div style='display:none'>
+    		<div id='inline_content' style='padding:10px; background:#fff;'>
+            <h2>Options</h2>
+			<p>Visualization Background:
+                <select id='bg'>
+                    <option value="black">Black</option>
+                    <option selected value="white">White</option>
+                </select>
+            </p>
+            <p>Main Visualization Type:
+                <select id='viztype'>
+                    <option value="none">None</option>
+                    <option value="circles">Circles</option>
+                    <option selected value="splatters">Splatters</option>
+                </select>
+            </p>
+            <p>Linear Visualization Type:
+                <select id='linviztype'>
+                    <option selected value="order">In order</option>
+                    <option value="time">By Time</option>
+                </select>
+            </p>
+            <p>Sentiment Analysis Source:
+                <select id='senti'>
+                    <option selected value="alchemy">AlchemyAPI</option>
+                    <option value="swn">SentiWordNet</option>
+                </select>
+            </p>
+			</div>
+		</div>
 </body>
 </html>
