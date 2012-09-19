@@ -56,3 +56,8 @@ var hsvToRgb = function(h, s, v){
     return [r, g, b];
 };
 exports.hsvToRgb = hsvToRgb;
+
+var colors = function() {
+    // TODO: implement evenly spaced out non repeating colors
+};
+exports.colors = colors;
