@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
 <div id="canvasdiv">
-  <canvas data-processing-sources="app.pde"></canvas>
+  <canvas data-processing-sources="https://conversationsentiments.herokuapp.com/app.pde"></canvas>
 </div>
 <div id="options">
   <select id="viztype">
