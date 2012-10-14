@@ -9,9 +9,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/app.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/processing-1.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
-<h1>HELLO WORLD</h1>
-<div id = 'name'></div>
+<div id="canvasdiv">
+  <canvas data-processing-sources="app.pde"></canvas>
+</div>
+<div id="options">
+  <select id="viztype">
+    <option value="spiral">Spiral</option>
+    <option value="linear1">Linear 1</option>
+    <option value="linear2">Linear 2</option>
+    <option value="clock">Clock</option>
+    <option value="timeline">Timeline</option>
+  </select>
+</div>
 
 ]]></Content>
 </Module>
