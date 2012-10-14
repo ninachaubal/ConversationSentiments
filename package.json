@@ -5,7 +5,7 @@
   {
     "express": ">= 3.0.0"
     "Sentimental": ">=0.0.2"
-  }
+  },
   "engines": {
     "node": ">=0.8"
   }
