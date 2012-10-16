@@ -10,16 +10,7 @@
 <script src="https://conversationsentiments.herokuapp.com/processing-1.4.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
-<canvas id="canvas1" width="200" height="100"></canvas>
-<div id="options">
-  <select id="viztype">
-    <option value="spiral">Spiral</option>
-    <option value="linear1">Linear 1</option>
-    <option value="linear2">Linear 2</option>
-    <option value="clock">Clock</option>
-    <option value="timeline">Timeline</option>
-  </select>
-</div>
+<canvas id="canvas1" width="550" height="309" style="position: absolute; z-index: 0; top: 0px; left: 0px;"></canvas>
 
 <script src="https://conversationsentiments.herokuapp.com/app.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
