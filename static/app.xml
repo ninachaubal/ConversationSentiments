@@ -10,9 +10,7 @@
 <script src="https://conversationsentiments.herokuapp.com/processing-1.4.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
-<div id="canvasdiv">
-  <canvas id="canvas1" width=800 height=800></canvas>
-</div>
+<canvas id="canvas1" width="200" height="100"></canvas>
 <div id="options">
   <select id="viztype">
     <option value="spiral">Spiral</option>
