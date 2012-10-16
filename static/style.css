@@ -1,0 +1,11 @@
+test{
+    padding:10px;
+    background-color:#fff;
+    float:left;
+    width:600px;
+}
+
+canvas{
+    background-color:#fff;
+    width:100%;
+}
