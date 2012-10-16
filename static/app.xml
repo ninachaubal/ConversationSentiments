@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
 <div id="canvasdiv">
-  <canvas id="canvas1" width="800px" height="800px"></canvas>
+  <canvas id="canvas1" width=800 height=800></canvas>
 </div>
 <div id="options">
   <select id="viztype">
