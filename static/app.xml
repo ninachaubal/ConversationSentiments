@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css" />
 
 <div class="canvasdiv">
-    <canvas id="canvas1""></canvas>
+    <canvas id="canvas1"></canvas>
 </div>
 <script src="https://conversationsentiments.herokuapp.com/app.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
