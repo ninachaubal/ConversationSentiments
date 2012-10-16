@@ -12,7 +12,7 @@
 
 <div class="canvasdiv">
     <canvas id="canvas1""></canvas>
-</div>​
+</div>
 <script src="https://conversationsentiments.herokuapp.com/app.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
 ]]></Content>
