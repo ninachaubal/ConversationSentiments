@@ -1,8 +1,6 @@
-function sketck(processing) {
+function sketch(processing) {
   processing.setup = function() {};
   processing.draw = function() {};
 }
 
-var canvas = document.getElementById("canvas1");
-console.log(canvas);
-var p = new Processing(canvas, sketch);
+new Processing(document.getElementById("canvas1"), sketch);
