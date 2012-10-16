@@ -1,6 +1,6 @@
 function sketchProc(processing) {
   processing.setup = function() {};
-  processing.draw = function() {};'
+  processing.draw = function() {};
 }
 
 var canvas = document.getElementById("canvas1");
