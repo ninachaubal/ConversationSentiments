@@ -8,8 +8,6 @@
 <script src="//hangoutsapi.talkgadget.google.com/hangouts/_/api/hangout.js?v=1.2"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/processing-1.4.1.min.js"></script>
-<script src="https://conversationsentiments.herokuapp.com/app.js"></script>
-<script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
 <link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css">
 
 <div id="canvasdiv">
@@ -25,5 +23,7 @@
   </select>
 </div>
 
+<script src="https://conversationsentiments.herokuapp.com/app.js"></script>
+<script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
 ]]></Content>
 </Module>
