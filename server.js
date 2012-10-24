@@ -6,6 +6,8 @@ var analyze = require('Sentimental').analyze;
 //create a server
 var express = require('express');
 var app = express();
+// test
+var test = require('./test');
 
 // Data Buffer
 var dataBuffer = [];
@@ -17,6 +19,14 @@ var participants = {};
 mount static content at /
 */
 app.use(express.static(__dirname + '/static'));
+
+/*
+POST /test
+load test data
+*/
+app.post('/test', function(req, res){
+  test.load();
+});
 
 /*
 POST /user
@@ -115,4 +125,8 @@ app.get('/reset', function(req, res){
   colors = col.colors();
 });
 
-app.listen(process.env.PORT);
+if (process.env.PORT !== undefined) {
+  app.listen(process.env.PORT);
+} else {
+  app.listen(8080);
+}
