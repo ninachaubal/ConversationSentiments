@@ -25,7 +25,6 @@ POST /test
 load test data
 */
 app.post('/test', function(req, res){
-  console.log('/test');
   test.loadtestdata('testdata-friends.srt', addUser, addData);
   res.send(200);
 });
@@ -112,7 +111,7 @@ function addData(id, text, duration, amplitude, topic, time) {
       'h' : participants[id].h,
       's' : participants[id].s,
       // converts [-5,5] sentiment score range to [20, 80] lightness values
-      'l' : 20 + ((parseInt(analysis.score,10) + 5) * 60)
+      'l' : 20 + ((parseInt(analysis.score,10) + 5) * 6)
     };
     dataBuffer.push(dataObj);
     return 200;

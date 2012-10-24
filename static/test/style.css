@@ -1,12 +1,13 @@
 .canvasdiv{
     padding:10px;
     background-color:#fff;
-    float:right;
     width:800px;
     height:400px;
 }
 
 canvas{
     background-color:#fff;
+    border: 1px solid black;
     width:100%;
+    height:100%;
 }

@@ -7,8 +7,12 @@
     <script src="sketch.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript">
-      var type = 'spiral' 
+      var type = 'spiral';
+      var buffer;
+      var participants;
       $(document).ready(function(){
+        // clear data
+        $.ajax({url:'/reset'});
         // load test data
         $.ajax({
           type: 'post',
@@ -17,15 +21,13 @@
             $.ajax({
               url: '/users',
               success: function (data) {
-                console.log("Participants");
-                console.log(JSON.stringify(data));
+                participants = data;
               }
             });
             $.ajax({
               url: '/data',
               success: function (data) {
-                console.log("Data");
-                console.log(JSON.stringify(data));
+                buffer = data;
               }
             });
           }
@@ -42,11 +44,12 @@
     <canvas id="canvas1"></canvas>
   </div>
    <select id='viztype'>
-    <option value="spiral">spiral</option>
+    <option selected value="spiral">spiral</option>
     <option value="linear">linear</option>
     <option value="lsplatters">linear splatters</option>
-    <option selected value="clock">clock</option>
-    <option selected value="timeline">time line</option>
+    <option value="lcircles">linear circles</option>
+    <option value="clock">clock</option>
+    <option value="timeline">time line</option>
   </select>
   </body>
 </html>

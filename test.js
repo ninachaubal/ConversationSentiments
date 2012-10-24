@@ -53,7 +53,7 @@ loadtestdata = function(filename, addUser, addData) {
               addUser(participants[currentParticipant], currentParticipant);
             }
             currentText = result[2];
-            currentAmplitude = 4; //TODO: change this for amplitude
+            currentAmplitude = Math.floor(4 + (Math.random()*4)); //TODO: change this for amplitude
           }
         } else {
           re = /^\d\d/;
