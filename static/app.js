@@ -75,6 +75,9 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   videoCanvas.setVideoFeed(videoFeed);
   videoCanvas.setVisible(true);
   videoCanvas.setWidth(400);
+  videoFeed.onDisplayedParticipantChanged.add(function(e){
+    //TODO
+  });
 });
 
 
