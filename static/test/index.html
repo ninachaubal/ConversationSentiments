@@ -14,17 +14,17 @@
           type: 'post',
           url: '/test',
           success: function() {
-            console.log("Participants");
             $.ajax({
               url: '/users',
               success: function (data) {
+                console.log("Participants");
                 console.log(JSON.stringify(data));
               }
             });
-            console.log("Data");
             $.ajax({
               url: '/data',
               success: function (data) {
+                console.log("Data");
                 console.log(JSON.stringify(data));
               }
             });
