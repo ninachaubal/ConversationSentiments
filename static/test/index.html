@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CS 499 </title>
+    <script src="../lib/jquery-latest.min.js" ></script>
+    <script src="../lib/processing-1.4.1-api.min.js" > </script>
+    <script src="sketch.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript">
+      var type = 'spiral' 
+      $(document).ready(function(){
+        // load test data
+        $.ajax({
+          type: 'post',
+          url: '/test',
+          success: function() {
+            console.log("Participants");
+            $.ajax({
+              url: '/users',
+              success: function (data) {
+                console.log(JSON.stringify(data));
+              }
+            });
+            console.log("Data");
+            $.ajax({
+              url: '/data',
+              success: function (data) {
+                console.log(JSON.stringify(data));
+              }
+            });
+          }
+        });
+        $('#viztype').change(function(){
+          type = $('#viztype').val(); 
+        });
+        new Processing("canvas1", sketch);
+      });
+    </script>
+  </head>
+  <body>
+  <div class="canvasdiv">
+    <canvas id="canvas1"></canvas>
+  </div>
+   <select id='viztype'>
+    <option value="spiral">spiral</option>
+    <option value="linear">linear</option>
+    <option value="lsplatters">linear splatters</option>
+    <option selected value="clock">clock</option>
+    <option selected value="timeline">time line</option>
+  </select>
+  </body>
+</html>
