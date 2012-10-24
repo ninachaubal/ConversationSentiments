@@ -1,9 +1,21 @@
 var circles = [];
 
 function sketch(ps) {
-  var debug = true;
   ps.size(800, 400);
+  var buf = ps.createGraphics(ps.width*2, ps.height, ps.JAVA2D);
+
   ps.draw = function() {
+
+    function expandBuffer() {
+      var buf2 = ps.createGraphics(buf.width*2, buf.height, ps.JAVA2D);
+      buf.loadPixels();
+      for(var i in buf.pixels) {
+        //TODO
+      }
+      buf2.updatePixels();
+      buf = buf2;
+    }
+
     function hsl2rgb (h, s, l) {
       /*from http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript*/
       h = h/360;
@@ -32,7 +44,7 @@ function sketch(ps) {
 
       return [r * 255, g * 255, b * 255];
     }
-    
+
     function splatter(x, y, rad, level, r, g, b) {
        circles.push({
         x : x,
@@ -58,7 +70,7 @@ function sketch(ps) {
         }
       }
     }
-    
+
     function drawOldCircles() {
       for(var i in circles) {
         ps.fill(circles[i].r,circles[i].g,circles[i].b,circles[i].a);
@@ -66,54 +78,54 @@ function sketch(ps) {
                    2*circles[i].rad,2*circles[i].rad);
       }
     }
-    
+
     function drawSpiral(data, r, g, b, i) {
       usethissomewhere = (i/30);
       i = i%30;
-      
+
       if (data.spiralprocessed !== undefined) return;
-      
+
       var x = (10*i*Math.cos(i) + (ps.width/2));
       var y = (10*i*Math.sin(i) + (ps.height/2));
       splatter(x, y, 15, parseInt(data.amplitude,10), r, g, b);
       data.spiralprocessed = true;
-    } 
-    
+    }
+
     function chooseLinearPos(data, pixps) {
     }
-    
+
     function drawLinear(data, r, g, b) {
       ps.noStroke();
       var pixps = 5;
       var xy = chooseLinearPos(data, pixps);
-      ps.rect(xy[0], xy[1], pixps, 
+      ps.rect(xy[0], xy[1], pixps,
       (100 + (parseInt(data.amplitude,10) * 10)), 5)
     }
-    
+
     function drawLinearSplatters(data, r, g, b){
       ps.noStroke();
       var pixps = 15;
       var xy = chooseLinearPos(data, pixps);
       splatter(xy[0], xy[1], 15, parseInt(data.amplitude,10), r, g, b);
     }
-    
+
     function drawLinearCircles(data, r, g, b) {
       ps.noStroke();
       var pixps = 15;
       var xy = chooseLinearPos(data, pixps);
-      var rad = (parseInt(data.amplitude,10) * 4))
+      var rad = (parseInt(data.amplitude,10) * 4));
       ps.fill(r, g, b, 170);
       ps.ellipse(xy[0], xy[0], rad * 2, rad * 2);
     }
-    
+
     function drawClock(data, r, g, b) {
     }
-    
+
     function drawTimeLine(data, r, g, b) {
     }
-    
+
     ps.background(255);
-    
+
     switch(type) {
         case 'spiral':
         case 'lsplatters':
@@ -123,7 +135,7 @@ function sketch(ps) {
         case 'linear':
         case 'timeline': break;
       }
-      
+
     for (var i in buffer) {
       var data = buffer[i];
       var rgb = hsl2rgb(parseInt(data.h, 10),
