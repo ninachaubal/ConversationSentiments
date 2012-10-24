@@ -7,8 +7,7 @@
     <script src="sketch.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript">
-      var type = 'spiral';
-      var buffer;
+      var type = 'lcircles';
       var participants;
       $(document).ready(function(){
         // clear data
@@ -33,9 +32,19 @@
           }
         });
         $('#viztype').change(function(){
-          type = $('#viztype').val(); 
+          type = $('#viztype').val();
         });
         new Processing("canvas1", sketch);
+        $('#left').hover(function(){
+          if(startX >= pixps) {
+            startX -= pixps;
+          }
+        });
+        $('#right').hover(function(){
+          if(startX < 8000) {
+            startX += pixps;
+          }
+        });
       });
     </script>
   </head>
@@ -51,5 +60,7 @@
     <option value="clock">clock</option>
     <option value="timeline">time line</option>
   </select>
+  <img src="leftbutton.jpg" id="left" />
+  <img src="rightbutton.jpg" id="right" />
   </body>
 </html>
