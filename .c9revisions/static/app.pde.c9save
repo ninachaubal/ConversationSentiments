@@ -1,0 +1,3 @@
+{"ts":1350363957157,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1350364064770,"patch":[[{"diffs":[[1,"var width = 600;\nvar height = 600;\n\nvoid setup(){\n    size(width,height);\n    smooth();\n}"]],"start1":0,"start2":0,"length1":0,"length2":89}]],"length":89,"saved":false}
+{"ts":1350364164936,"patch":[[{"diffs":[[0,"up()"],[1," "],[0,"{\n"],[-1,"  "],[0,"  si"]],"start1":44,"start2":44,"length1":12,"length2":11},{"diffs":[[0,"eight);\n"],[-1,"  "],[0,"  smooth"]],"start1":65,"start2":65,"length1":18,"length2":16},{"diffs":[[0,"oth();\n}"],[1,"\n\nvoid draw() {\n  background(255);\n  update();\n}"]],"start1":78,"start2":78,"length1":8,"length2":56}]],"length":134,"saved":false}

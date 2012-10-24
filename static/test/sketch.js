@@ -10,9 +10,7 @@ function sketch(ps) {
   var linsbuf = ps.createGraphics(ps.width*10, ps.height, ps.JAVA2D);
   var lintbuf = ps.createGraphics(ps.width*10, ps.height, ps.JAVA2D);
 
-  ps.draw = function() {
-
-    function hsl2rgb (h, s, l) {
+  function hsl2rgb (h, s, l) {
       /*from http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript*/
       h = h/360;
       s = s/100;
@@ -108,11 +106,8 @@ function sketch(ps) {
     function drawTimeLine(data, r, g, b) {
     }
 
-    ps.background(255);
-
-    var img = undefined;
-    while (buffer.length > 0) {
-      var data = buffer.pop();
+  while (buffer.length > 0) {
+    var data = buffer.pop();
       var rgb = hsl2rgb(parseInt(data.h, 10),
                         parseInt(data.s, 10),
                         parseInt(data.l, 10));
@@ -125,19 +120,27 @@ function sketch(ps) {
       drawLinear(data, r, g, b);
       drawLinearCircles(data, r, g, b);
       drawLinearSplatters(data, r, g, b);
-      drawTimeLine(data, r, g, b);
-      switch(type) {
-        case 'spiral': break;
-        case 'linear': img = linbuf.get(startX, 0, linbuf.width, linbuf.height); break;
-        case 'lsplatters': linsbuf.get(startX, 0, linsbuf.width, linsbuf.height); break;
-        case 'lcircles': lincbuf.get(startX, 0, lincbuf.width, lincbuf.height); break;
-        case 'clock':  break;
-        case 'timeline': lintbuf.get(startX, 0, lintbuf.width, lintbuf.height); break;
-      }
-      index++;
+      //drawTimeLine(data, r, g, b);
+  }
+
+  ps.draw = function() {
+
+
+    ps.background(255);
+
+    var img = undefined;
+    switch(type) {
+      case 'spiral': break;
+      case 'linear': img = linbuf.get(startX, 0, ps.width, linbuf.height); break;
+      case 'lsplatters': img = linsbuf.get(startX, 0, ps.width, linsbuf.height); break;
+      case 'lcircles': img = lincbuf.get(startX, 0, ps.width, lincbuf.height); break;
+      case 'clock':  break;
+      case 'timeline': break;//img = lintbuf.get(startX, 0, ps.width, lintbuf.height); break;
     }
-    if (img) {
-      image(img, 0, 0);
+
+    if (img !== undefined) {
+      console.log(img)
+      ps.image(img, 0, 0);
     }
   };
 }
