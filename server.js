@@ -1,6 +1,6 @@
 //colors
-var col = require('./colors');
-var colors = col.colors();
+var colors = require('./colors').colors;
+
 //Sentimental
 var analyze = require('Sentimental').analyze;
 //create a server
@@ -25,7 +25,9 @@ POST /test
 load test data
 */
 app.post('/test', function(req, res){
-  test.load();
+  console.log('/test');
+  test.loadtestdata('testdata-friends.srt', addUser, addData);
+  res.send(200);
 });
 
 /*
@@ -37,14 +39,19 @@ name = participant's display name
 app.post('/user', function(req, res){
   var id = req.param('id');
   var name = req.param('name');
+  res.send(addUser(id, name));  
+});
+
+function addUser(id, name) {
   if (id !== undefined && name !== undefined && participants[id] === undefined){
     var h = colors.getColor(id);
     participants[id] = {'h': h, 's': 100, 'l': 50 ,'name': name};
-    res.send(200);
+    return 200;
   } else {
-    res.send(400);
+    return 400;
   }
-});
+}
+
 
 /*
   GET /users
@@ -74,23 +81,30 @@ app.del('/user', function(req, res) {
   params:
   text: the text content of the message
   id: the id of the participants
-  duration: duration in seconds of the message
+  duration: duration in ms of the message
   amplitude: amplitude of the recording in a (0,10] range
   topic: current hangout topic
 */
-app.post('/user', function(req, res){
+app.post('/data', function(req, res){
   var id = req.param('id');
   var text = req.param('text');
   var duration = parseInt(req.param('duration'),10);
   var amplitude = parseInt(req.param('amplitude'),10);
   var topic = req.param('topic');
-  if (id !== undefined && name !== undefined && duration !== undefined &&
-      duration > 0 && amplitude !== undefined && amplitude > 0 &&
-      amplitude <= 10){
+  res.send(addData(id, text, duration, amplitude, topic,
+            new Date().getTime()));
+});
+
+function addData(id, text, duration, amplitude, topic, time) {
+  if (id !== undefined && text !== undefined &&
+      duration !== undefined && duration > 0 &&
+      amplitude !== undefined && amplitude > 0 &&
+      amplitude <= 10 && time !== undefined){
     var analysis = analyze(text);
     var dataObj = {
       'id': id,
       'text': text,
+      'time': time,
       'duration': duration,
       'amplitude': amplitude,
       'topic': topic,
@@ -99,13 +113,13 @@ app.post('/user', function(req, res){
       's' : participants[id].s,
       // converts [-5,5] sentiment score range to [20, 80] lightness values
       'l' : 20 + ((parseInt(analysis.score,10) + 5) * 60)
-    }
+    };
     dataBuffer.push(dataObj);
-    res.send(200);
+    return 200;
   } else {
-    res.send(400);
+    return 400;
   }
-});
+};
 
 /*
   GET /data
@@ -122,7 +136,7 @@ app.get('/data', function(req, res) {
 app.get('/reset', function(req, res){
   dataBuffer = [];
   participants = [];
-  colors = col.colors();
+  colors.reset();
 });
 
 if (process.env.PORT !== undefined) {
