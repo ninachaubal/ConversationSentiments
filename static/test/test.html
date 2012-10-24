@@ -6,7 +6,22 @@
     <script src="processing-1.4.1-api.min.js" > </script>
     <script src="sketch.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript">
+      type = 'spiral' 
+      $(document).load(function(){
+        // load test data
+        $.ajax({
+          url: '/test'
+        });
+        $('#viztype').change(function(){
+          type = $('#viztype').val(); 
+        });
+      });
+    </script>
   </head>
   <body>
+  <div class="canvasdiv">
+    <canvas id="canvas1"></canvas>
+  </div>
   </body>
 </html>

@@ -7,13 +7,13 @@
 <!DOCTYPE html>
 <script src="//hangoutsapi.talkgadget.google.com/hangouts/_/api/hangout.js?v=1.2"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="https://conversationsentiments.herokuapp.com/processing-1.4.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/style.css" />
+<script src="https://conversationsentiments.herokuapp.com/lib/processing-1.4.1-api.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://conversationsentiments.herokuapp.com/app/style.css" />
 
 <div class="canvasdiv">
     <canvas id="canvas1"></canvas>
 </div>
-<script src="https://conversationsentiments.herokuapp.com/app.js"></script>
-<script src="https://conversationsentiments.herokuapp.com/sketch.js" ></script>
+<script src="https://conversationsentiments.herokuapp.com/app/app.js"></script>
+<script src="https://conversationsentiments.herokuapp.com/app/sketch.js" ></script>
 ]]></Content>
 </Module>
