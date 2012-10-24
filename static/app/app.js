@@ -16,6 +16,7 @@ colors.prototype.getColor = function(id) {
     var upperPos = -1;
     var longestRange = 0;
     for (var i in this.hues) {
+      console.log(i+1);
       if (this.hues[i+1] !== undefined) {
         var range = this.hues[i+1].h - this.hues[i].h;
         if (range > longestRange) {
@@ -61,6 +62,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   gapi.hangout.onParticipantsAdded.add(function(e){
     for (i in e.addedParticipants) {
       hueMap[id] = col.getColor(e.addedParticipants[i].id);
+      console.log('id = ' + e.addedParticipants[i].id + ' hue = ' + hueMap[id])
     }
   });
   gapi.hangout.onParticipantsRemoved.add(function(e){
@@ -68,6 +70,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   });
   gapi.hangout.onTopicChanged.add(function(e){
     //TODO
+    console.log(e.topic);
   });
 
   videoCanvas = gapi.hangout.layout.getVideoCanvas();
