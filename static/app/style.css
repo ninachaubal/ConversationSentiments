@@ -1,0 +1,12 @@
+.canvasdiv{
+    padding:10px;
+    background-color:#fff;
+    float:right;
+    width:800px;
+    height:400px;
+}
+
+canvas{
+    background-color:#fff;
+    width:100%;
+}
