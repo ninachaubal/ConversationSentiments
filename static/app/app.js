@@ -4,13 +4,14 @@ var videoFeed;
 
 gapi.hangout.onApiReady.add(function(eventObj) {
   gapi.hangout.onParticipantsAdded.add(function(e){
-    users = [];
-    for (i in e.addedParticipants) {
+    var users = [];
+    for (var i in e.addedParticipants) {
       users.push({
         id: e.addedParticipants[i].id,
         name: e.addedParticipants[i].person.displayName
       });
     }
+    console.log(users);
     $.ajax({
         type: 'POST',
         url: baseURL + '/users',
@@ -19,7 +20,7 @@ gapi.hangout.onApiReady.add(function(eventObj) {
         },
         success: function() {
           $.ajax({
-            url: bbaseURL + '/users',
+            url: baseURL + '/users',
             success: function(data) {
               console.log(JSON.stringify(data));
             }
