@@ -30,24 +30,46 @@ app.post('/test', function(req, res){
 });
 
 /*
-POST /user
+Set headers for cross site requests
+*/
+app.get('/*',function(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+app.post('/*',function(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
+/*
+POST /users
 params:
-id = id given by gapi.hangout.getLocalParticipantId()
+users = [{id: id, name: name} ...]
+where,
+id = participant id as given by the hangouts api
 name = participant's display name
 */
-app.post('/user', function(req, res){
-  var id = req.param('id');
-  var name = req.param('name');
-  res.send(addUser(id, name));  
+app.post('/users', function(req, res){
+  var users = JSON.parse(req.param('users'));
+  var success = false;
+  for (var i in users) {
+    console.log(users[i])
+    success = success || addUser(users[i].id, users[i].name);
+  }
+  if (success) {
+    res.send(200);
+  } else {
+    res.send(400);
+  }
 });
 
 function addUser(id, name) {
   if (id !== undefined && name !== undefined && participants[id] === undefined){
     var h = colors.getColor(id);
     participants[id] = {'h': h, 's': 100, 'l': 50 ,'name': name};
-    return 200;
+    return true;
   } else {
-    return 400;
+    return false;
   }
 }
 
@@ -136,6 +158,13 @@ app.get('/reset', function(req, res){
   dataBuffer = [];
   participants = [];
   colors.reset();
+});
+
+/*
+  GET /time
+*/
+app.get('/time', function(req, res) {
+  res.json(200, {time: new Date().getTime()});
 });
 
 if (process.env.PORT !== undefined) {
