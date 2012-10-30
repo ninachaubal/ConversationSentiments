@@ -4,29 +4,7 @@ var videoFeed;
 
 gapi.hangout.onApiReady.add(function(eventObj) {
   gapi.hangout.onParticipantsAdded.add(function(e){
-    var users = [];
-    for (var i in e.addedParticipants) {
-      users.push({
-        id: e.addedParticipants[i].id,
-        name: e.addedParticipants[i].person.displayName
-      });
-    }
-    console.log(users);
-    $.ajax({
-        type: 'POST',
-        url: baseURL + '/users',
-        data: {
-          users: users
-        },
-        success: function() {
-          $.ajax({
-            url: baseURL + '/users',
-            success: function(data) {
-              console.log(JSON.stringify(data));
-            }
-          });
-        }
-      });
+    updateParticipants(e.addedParticipants);
   });
   gapi.hangout.onParticipantsRemoved.add(function(e){
     //TODO
@@ -44,8 +22,34 @@ gapi.hangout.onApiReady.add(function(eventObj) {
   videoFeed.onDisplayedParticipantChanged.add(function(e){
     //TODO
   });
+
+  updateParticipants(gapi.hangout.getEnabledParticipants());
 });
 
-
+function updateParticipants(participants) {
+  var users = [];
+  for (var i in e.addedParticipants) {
+    users.push({
+      id: e.addedParticipants[i].id,
+      name: e.addedParticipants[i].person.displayName
+    });
+  }
+  console.log(users);
+  $.ajax({
+    type: 'POST',
+    url: baseURL + '/users',
+    data: {
+      users: users
+    },
+    success: function() {
+      $.ajax({
+        url: baseURL + '/users',
+        success: function(data) {
+          console.log(JSON.stringify(data));
+        }
+      });
+    }
+  });
+}
 
 
