@@ -2,28 +2,32 @@ var baseURL = 'https://conversationsentiments.herokuapp.com';
 var videoCanvas;
 var videoFeed;
 
-gapi.hangout.onApiReady.add(function(eventObj) {
-  gapi.hangout.onParticipantsAdded.add(function(e){
-    updateParticipants(e.addedParticipants);
-  });
-  gapi.hangout.onParticipantsRemoved.add(function(e){
-    //TODO
-  });
-  gapi.hangout.onTopicChanged.add(function(e){
-    //TODO
-    console.log(e.topic);
+$(document).ready(function(){
+  gapi.hangout.onApiReady.add(function(eventObj) {
+    gapi.hangout.onParticipantsAdded.add(function(e){
+      //updateParticipants(e.addedParticipants);
+    });
+    gapi.hangout.onParticipantsRemoved.add(function(e){
+      //TODO
+    });
+    gapi.hangout.onTopicChanged.add(function(e){
+      //TODO
+      console.log(e.topic);
+    });
+
+    videoCanvas = gapi.hangout.layout.getVideoCanvas();
+    videoFeed = gapi.hangout.layout.getDefaultVideoFeed();
+    videoCanvas.setVideoFeed(videoFeed);
+    videoCanvas.setVisible(true);
+    videoCanvas.setWidth(400);
+    videoFeed.onDisplayedParticipantChanged.add(function(e){
+      //TODO
+    });
+
+    //updateParticipants(gapi.hangout.getEnabledParticipants());
   });
 
-  videoCanvas = gapi.hangout.layout.getVideoCanvas();
-  videoFeed = gapi.hangout.layout.getDefaultVideoFeed();
-  videoCanvas.setVideoFeed(videoFeed);
-  videoCanvas.setVisible(true);
-  videoCanvas.setWidth(400);
-  videoFeed.onDisplayedParticipantChanged.add(function(e){
-    //TODO
-  });
-
-  updateParticipants(gapi.hangout.getEnabledParticipants());
+  new Processing("canvas1", sketch);
 });
 
 function updateParticipants(participants) {

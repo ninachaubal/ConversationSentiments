@@ -13,7 +13,7 @@
 <div class="canvasdiv">
     <canvas id="canvas1"></canvas>
 </div>
-<script src="https://conversationsentiments.herokuapp.com/app/app.js"></script>
 <script src="https://conversationsentiments.herokuapp.com/app/sketch.js" ></script>
+<script src="https://conversationsentiments.herokuapp.com/app/app.js"></script>
 ]]></Content>
 </Module>
