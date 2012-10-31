@@ -5,7 +5,7 @@ var videoFeed;
 $(document).ready(function(){
   gapi.hangout.onApiReady.add(function(eventObj) {
     gapi.hangout.onParticipantsAdded.add(function(e){
-      //updateParticipants(e.addedParticipants);
+      updateParticipants(e.addedParticipants);
     });
     gapi.hangout.onParticipantsRemoved.add(function(e){
       //TODO
