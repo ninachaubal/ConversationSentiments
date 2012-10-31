@@ -21,3 +21,5 @@
 {"ts":1351644735334,"patch":[[{"diffs":[[0,");\n  });"],[1,"\n\n  new Processing(\"canvas1\", sketch);"],[0,"\n});\n\nfu"]],"start1":825,"start2":825,"length1":16,"length2":54}]],"length":1405,"saved":false}
 {"ts":1351645045971,"patch":[[{"diffs":[[0,"n(e){\n      "],[1,"//"],[0,"updatePartic"]],"start1":224,"start2":224,"length1":24,"length2":26},{"diffs":[[0,");\n\n    "],[1,"//"],[0,"updatePa"]],"start1":763,"start2":763,"length1":16,"length2":18}]],"length":1409,"saved":false}
 {"ts":1351645126592,"patch":[[{"diffs":[[0,"n(e){\n      "],[-1,"//"],[0,"updatePartic"]],"start1":224,"start2":224,"length1":26,"length2":24}]],"length":1407,"saved":false}
+{"ts":1351645311550,"patch":[[{"diffs":[[0,");\n\n    "],[-1,"//"],[0,"updatePa"]],"start1":761,"start2":761,"length1":18,"length2":16}]],"length":1405,"saved":false}
+{"ts":1351645337545,"patch":[[{"diffs":[[0,"ants) {\n"],[1,"  console.log(JSON.stringify(participants));\n"],[0,"  var us"]],"start1":913,"start2":913,"length1":16,"length2":61}]],"length":1450,"saved":false}

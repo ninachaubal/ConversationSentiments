@@ -24,13 +24,14 @@ $(document).ready(function(){
       //TODO
     });
 
-    //updateParticipants(gapi.hangout.getEnabledParticipants());
+    updateParticipants(gapi.hangout.getEnabledParticipants());
   });
 
   new Processing("canvas1", sketch);
 });
 
 function updateParticipants(participants) {
+  console.log(JSON.stringify(participants));
   var users = [];
   for (var i in e.addedParticipants) {
     users.push({
