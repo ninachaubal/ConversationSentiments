@@ -21,6 +21,11 @@ mount static content at /
 app.use(express.static(__dirname + '/static'));
 
 /*
+parse request bodies
+*/
+app.use(express.bodyParser());
+
+/*
 POST /test
 load test data
 */
@@ -49,11 +54,10 @@ where,
 id = participant id as given by the hangouts api
 name = participant's display name
 */
-app.post('/user', function(req, res){
-  var users = JSON.parse(req.param('users'));
+app.post('/users', function(req, res){
+  var users = req.body.users;
   var success = false;
   for (var i in users) {
-    console.log(users[i])
     success = success || addUser(users[i].id, users[i].name);
   }
   if (success) {
