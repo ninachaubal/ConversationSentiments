@@ -139,7 +139,7 @@ function sketch(ps) {
     }
 
     if (img !== undefined) {
-      console.log(img)
+      //console.log(img)
       ps.image(img, 0, 0);
     }
   };

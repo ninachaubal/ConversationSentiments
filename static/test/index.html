@@ -31,6 +31,14 @@
             });
           }
         });
+        $.ajax({
+          url: '/user',
+          type: 'POST',
+          data: {users: [{name: 'test', id: 'test'}]},
+          success: function() {
+            console.log('added test user')
+          }
+        });
         $('#viztype').change(function(){
           type = $('#viztype').val();
         });

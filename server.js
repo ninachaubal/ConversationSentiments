@@ -49,7 +49,7 @@ where,
 id = participant id as given by the hangouts api
 name = participant's display name
 */
-app.post('/users', function(req, res){
+app.post('/user', function(req, res){
   var users = JSON.parse(req.param('users'));
   var success = false;
   for (var i in users) {
