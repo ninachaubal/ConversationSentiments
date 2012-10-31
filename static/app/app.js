@@ -33,10 +33,10 @@ $(document).ready(function(){
 function updateParticipants(participants) {
   console.log(JSON.stringify(participants));
   var users = [];
-  for (var i in e.addedParticipants) {
+  for (var i in participants) {
     users.push({
-      id: e.addedParticipants[i].id,
-      name: e.addedParticipants[i].person.displayName
+      id: participants[i].id,
+      name: participants[i].person.displayName
     });
   }
   console.log(users);
