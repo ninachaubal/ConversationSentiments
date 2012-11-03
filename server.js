@@ -5,7 +5,7 @@ var app = express();
 // other required modules
 var fs = require('fs');
 var exec = require('child_process').exec;
-var https = require('https');
+var request = require('request');
 
 /*
 use multipart request bodies
@@ -70,8 +70,8 @@ app.get('/token', function(req, res){
     token: a unique identifier for this recording
 */
 app.post('/audio', function(req, res){
-  var rec = req.param('token');
-  if (requests[token] !== undefined) {
+  var token = req.param('token');
+  if (requests[token] == 'reserved') {
     // write .wav file to tmp
     var filepath = __dirname + '/tmp/' + token + '.wav';
     var fd = fs.openSync(filepath, 'a');
@@ -79,30 +79,31 @@ app.post('/audio', function(req, res){
     fs.writeSync(fd, buff, 0, buff.length, 0);
     fs.closeSync(fd);
     // convert to flac
-    var child = exec('flac -0 ' + token + '.wav', 
-      function(err) {
-        if (err == null) {
-          var post_data = 'TODO' //TODO
-          var post_options = {
-            host: 'google.com',
-            path: '/speech-api/v1/recognize?client=chromium&lang=en-US&pfilter=0',
+    var child = exec('flac -0 -f ' + __dirname + '/tmp/' + token + '.wav',
+      function(err){
+        if (err != null) {
+          console.log(err);
+        } else {
+          var flac = fs.readFileSync(__dirname + '/tmp/' + token + '.flac');
+          request({
+            url: 'https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=en-US',
             method: 'POST',
             headers: {
-              'Content-Type': 'audio/x-flac; rate=22050',
-              'Content-Length': post_data.length
+              'Content-Type': 'audio/x-flac; rate=22050'
+            },
+            body: flac
+          }, function (err, res, body) {
+            body = JSON.parse(body);
+            console.log(body.hypotheses);
+            if (body.hypotheses.length > 0) {
+              console.log(body.hypothesis[0].utterance);
+            } else {
+              console.log('empty');
             }
-          };
-          var textresponse = '';
-          var post_req = https.request(post_options, function(res) {
-            res.setEncoding('utf*')
-            res.on('data'. function(chunk) {
-              textresponse += chunk;
-            });
           });
-          post_req.write(post_data);
-          post_req.end();
         }
-      });
+      }
+    );
   }
 });
 

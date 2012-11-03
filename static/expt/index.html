@@ -9,25 +9,30 @@
 <script type="text/javascript" src="recorder.js"></script>
 <script type="text/javascript" src="../lib/jquery-latest.min.js"></script>
 <script type="text/javascript">
-var id = 0;
+var token;
 
 function setup() {
 	Wami.setup("wami");
+	$.ajax({
+	  url: '/token',
+	  success: function(data) {
+	    token = data.token;
+	  }
+	});
 }
 
 function record() {
-	Wami.startRecording("http://localhost:8080/audio?rec="+id);
+	Wami.startRecording("http://localhost:8080/audio?token="+token);
 }
 
 function stop() {
 	Wami.stopRecording();
 	$.ajax({
-	  url: '/text?rec='+id,
+	  url: '/token?token=' + token,
 	  success: function(data){
 	    $('#output').html(data.txt)
 	  }
 	});
-	id++;
 }
 </script>
 </head>
