@@ -7,6 +7,10 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var request = require('request');
 
+// SWN
+var swn = require('./swn/swn.js');
+swn = new swn.swn('./swn/swn.txt');
+
 /*
 use multipart request bodies
 */
@@ -94,11 +98,11 @@ app.post('/audio', function(req, res){
             body: flac
           }, function (err, res, body) {
             body = JSON.parse(body);
-            console.log(body.hypotheses);
             if (body.hypotheses.length > 0) {
-              console.log(body.hypothesis[0].utterance);
+              console.log('recognized: ' + body.hypothesis[0].utterance);
+              requests[token] = swn.getSentiment(body.hypothesis[0].utterance);
             } else {
-              console.log('empty');
+              requests[token] = 'error';
             }
           });
         }
@@ -110,10 +114,20 @@ app.post('/audio', function(req, res){
 /*
   GET /text
   param: 
-    rec: unique identifier passed to /audio
+    token: unique identifier passed to /audio
 */
 app.get('/text', function(req, res){
-  var rec = req.param('rec');
+  var token = req.param('token');
+  if (requests[token] !== undefined) {
+    if (requests[token] == 'error') {
+      res.json({'error': 'no speech detected'});
+    } else {
+      // TODO
+      delete requests[token];
+    }
+  } else {
+    res.json({'error': 'invalid token'})
+  }
 });
 
 if (process.env.PORT !== undefined) {
