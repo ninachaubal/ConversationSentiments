@@ -4,7 +4,7 @@
   "dependencies" : {
     "express"  :  ">=3.0",
     "request"  :  ">=2.11",
-    "natural"  :  ">=0.1.17"
+    "pos"  :  ">=0.1.2"
   },
   "license": "GPL",
   "engines": {
